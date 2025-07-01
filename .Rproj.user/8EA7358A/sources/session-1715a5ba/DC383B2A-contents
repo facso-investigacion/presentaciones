@@ -1,0 +1,116 @@
+---
+  title: "Dirección de Investigación y Publicaciones -- FACSO"
+author: "Presentación Equipo Directivo"
+date: 07-02-2025
+format:
+  revealjs: 
+  css: input/custom.css
+scrollable: true
+editor: visual
+---
+  
+  ## Contenidos
+  
+  1. Antecedentes
+2. Gestión de Información
+3. Resumen Postulaciones a Proyectos Primer Semestre
+4.  Vinculación
+
+# Antecedentes
+
+---
+  
+  ![](input/imagenes/antecedentes.png)
+
+# Gestión de Información
+
+## Situación Actual
+
+-   SEPA-VID es el principal repositorio institucional de datos de investigación. Sin embargo, Para hacer uso estratégico de esta información se requiere:
+  
+  -   Dedicar tiempo al procesamiento de la base de datos
+-   Cruzarla con otras bases para recoger variables de interés (caracterización de los académicos, palabras claves, presupuesto, colaboraciones, internacionalización).
+
+## Seguimiento a trayectorias de postulación
+
+- Como consecuencia, se dificulta la posibilidad de identficar tanto proyecto adjudicados como aquellos que fueron presentados pero no lograron la adjudicación. 
+
+
+- Sin un sistema de gestión de información, resulta díficil identificar perfiles de académicos que no se están adjudicando proyectos individuales o asociativos, así como tomar líneas de acción específicas. 
+
+------------------------------------------------------------------------
+  
+  ## Propuesta
+  
+  **Desarrollar un sistema local e integrado de gestión y visualización de información científica** que permitea consolidar, actualizar y utilizar estratégicamente los datos de proyectos de investigación en FACSO.
+
+## Productos propuestos
+
+1.  **Base de datos integrada de proyectos de investigación**, tanto **adjudicados como postulados**, en coordinación con el Colaboratorio de Investigación Social.
+
+2.  **Base de datos auxiliares**: Enfocadas en identificar redes de colaboración externa
+
+3.  **Visualización**: Dashboards con información sintética de los principales indicadores relacionados a la investigación en la Facultad.
+
+4.  **Reportes**: Informes con acceso diferenciado a información agregada e individual
+
+5.  **Documentación**: Libros de códigos, manuales de uso y reportes técnicos
+
+---
+  
+  -  Este sistema permitirá identificar la adjudicación de proyectos en relación a las trayectorias académicas, permitiendo distinguir:
+  -   Académicos que postulan y se adjudican proyectos
+-   Académicos que postulan y no se adjudican proyectos
+-   Académicos que dejaron postular 
+-   Factores asociados a estas trayectorias (por ejemplo: edad, jerarquizaciones)
+
+-   Desde ahí, será posible establecer líneas de acción tales como nuevos fondos o asesorías estratégicas. 
+
+
+# Resumen postulaciones a Proyectos
+
+<!-- ## Resultados FOAS 2023-2025 -->
+  
+  <!-- | Año  | Propuestas Seleccionadas | Postulaciones | Pasan a Entrevista | Adjudicados  | -->
+  <!-- |---------------|---------------|---------------|---------------|---------------| -->
+  <!-- | 2023 | 6                        | 5             | 2                  | 1            | -->
+  <!-- | 2024 | 6                        | 4             | 1                  | Por anunciar | -->
+  <!-- | 2025 | 7                        | 6             | Por anunciar       | Por anunciar | -->
+  
+  ## Postulaciones Concursos Asociativos (2024-2025)
+  
+  ```{r}
+library(readxl)
+library(tidyverse)
+library(janitor)
+asoc <- read_excel("../equipo-directivo/input/asociativos.xlsx") |> clean_names()
+
+library(dplyr)
+library(ggplot2)
+
+asoc |> 
+  filter(ano != 2023) |>
+  group_by(concurso, foas) |> 
+  summarise(proyectos = n(), .groups = "drop") |>
+  group_by(concurso) |>
+  mutate(total = sum(proyectos)) |>
+  ungroup() |>
+  mutate(concurso = reorder(concurso, -total)) |>
+  ggplot(aes(x = concurso, y = proyectos, fill = foas)) +
+  geom_bar(stat = "identity", position = "stack") +
+  geom_text(
+    aes(label = proyectos),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 3.5
+  ) +
+  scale_fill_manual(values = c("#1f77b4", "#ff7f0e")) +
+  labs(
+    x = "Concurso",
+    y = "Cantidad de Proyectos",
+    fill = "¿Con FOAS?"
+  ) +
+  theme_minimal()
+
+
+```

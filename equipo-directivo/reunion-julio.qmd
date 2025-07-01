@@ -8,57 +8,78 @@ editor: visual
 
 ## Contenidos
 
-1.  Gestión de Información
-2.  Seguimiento a académicos sin proyectos de investigación
-3.  Proyectos Asociativos
-4.  Balance Postulaciones Fondecyt Regular 2026
+1.  Balance Postulaciones Fondecyt 2026
+2.  Proyectos Asociativos
+3.  Gestión de Información
+4.  Seguimiento a académicos sin proyectos de investigación
 5.  Incorporación de estudiantes de pregrado en investigación
 
-# 1. Gestión de Información
+# 1.  Balance Postulaciones Fondecyt 2026
 
-## Situación Actual
+## Apoyos DIP para Postulaciones Fondecyt
 
--   SEPA-VID es el principal repositorio institucional de datos de investigación. Sin embargo, Para hacer uso estratégico de esta información se requiere:
+- Se realizaron **talleres de postulación** a Fondecyt Regular y Fondecyt Iniciación, con investigadores que adjudicaron proyectos recientemente. 
+- Se actualizó la **Calculadora de Puntaje por Productividad** Fondecyt Regular. Este año se incluyeron también los grupos de estudio Artes y arquitectura,	Historia y Geografía y Urbanismo.
+- Se gestionaron **seis revisiones por pares** para Fondecyt Regular, con presupuesto PEEI 2025-2026.
 
-    -   Dedicar tiempo al procesamiento de la base de datos
-    -   Cruzarla con otras bases para recoger variables de interés (caracterización de los académicos, palabras claves, presupuesto, colaboraciones, internacionalización).
+---
 
-## Propuesta
+### Postdoctorado: Postulantes patrocinados por Departamento
 
-**Desarrollar un sistema local e integrado de gestión y visualización de información científica** que permitea consolidar, actualizar y utilizar estratégicamente los datos de proyectos de investigación en FACSO.
+| Departamento Patrocinante | Postdoc 2025 | Postdoc 2026 |
+| ------------------------- | ------------ | ------------ |
+| Antropología              | 1            | 2            |
+| Educación                 | 1            | 1            |
+| Psicología                | 3            | 4            |
+| Sociología                | 1            | 2            |
+| Trabajo Social            | 1            | 0            |
+| **Total**                 | **7**        | **9**        |
 
-**Productos propuestos**
+---
 
-1.  **Base de datos integrada de proyectos de investigación** adjudicados y postulados. Debe contar tanto con información de los académicos (departamento, género, jerarquía) como de los proyectos (concurso, monto adjudicado, Investigador Responsable, palabras claves)
+### Iniciación: Postulaciones por Departamento
 
-------------------------------------------------------------------------
 
-**Productos propuestos**
+| Departamento            | Iniciación 2025 | Iniciación 2026 |
+| ----------------------- | --------------- | --------------- |
+| Antropología            | 1               | 2               |
+| Educación               | 0               | 0               |
+| Psicología              | 9               | 2               |
+| Sociología              | 3               | 0               |
+| Trabajo Social          | 5               | 3               |
+| Investigadores Externos | 2               | 5               |
+| **Total**               | **20**          | **12**          |
 
-2.  **Base de datos auxiliares**: Enfocadas en identificar redes de colaboración externa
+---
 
-3.  **Visualización**: Dashboards con información sintética de los principales indicadores relacionados a la investigación en la Facultad.
+### Regular: Total de Postulaciones
 
-4.  **Reportes**: Informes con acceso diferenciado a información agregada e individual
+La Facultad aumentó el número de postulaciones con respecto al año anterior.
 
-5.  **Documentación**: Libros de códigos, manuales de uso y reportes técnicos
+| Tipo de Investigador     | Concurso 2025 | Concurso 2026 | Aumento |
+| ------------------------ | ------------- | ------------- | ------- |
+| Coinvestigador           | 44            | 49            | 11,4%   | 
+| Investigador responsable | 24            | 27            | 12,5%   |
 
-## Seguimiento a académicos sin proyectos de investigación
+---
 
--   Este nuevo sistema de gestión busca identificar no solo proyecto adjudicados, sino también proyectos presentado que no lograron la adjudicación.
+### Regular: IRs por Departamento
 
--   Esto permitirá identificar claramente a los académicos y perfiles de académicos que no se están adjudicando proyectos individuales o colectivos y proponer líneas de acción específicas.
+Solamente los departamentos de Antropología y Sociología disminuyeron sus postulaciones.
 
-------------------------------------------------------------------------
+| Departamento   | Concurso 2025 | Concurso 2026 |
+| -------------- | ------------- | ------------- |
+| Psicología     | 6             | 6             |
+| Antropología   | 7             | 3             |
+| Educación      | 3             | 7             |
+| Sociología     | 5             | 3             |
+| Trabajo Social | 3             | 8             |
 
--   Además, permitirá identificar la adjudicación de proyectos en relación a las trayectorias académicas, permitiendo distinguir:
-    -   Académicos que postulan y no se adjudican proyectos
-    -   Académicos que dejaron postular - Factores asociados a estas trayectorias (por ejemplo: edad, jerarquizaciones)
--   Desde ahí, será posible establecer líneas de acción tales como:
-    -   Nuevos Fondos de incentivo
-    -   Asesorías específicas
+::: {.footer}
+**Nota:** Tres de los investigadores que postularon con patrocinio del Departamento de Educación no son parte del claustro departamental.
+:::
 
-# 3. Asociatividad
+# 2. Asociatividad
 
 ## Resultados FOAS 2023-2025
 
@@ -104,42 +125,52 @@ foas |> group_by(afiliacion) %>% summarise(proyectos= n()) |>
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-# 4.  Balance Postulaciones Fondecyt Regular 2026
 
-## Apoyos DIP
 
-- Se actualizó la Calculadora de Puntaje por Productividad Fondecyt. Este año se incluyeron también los grupos de estudio Artes y arquitectura,	Historia y Geografía y Urbanismo. 
-- Se realizó un taller de postulación con investigadores que adjudicaron proyectos Fondecyt Regular recientemente. 
-- Se gestionaron seis revisiones por pares, con presupuesto PEEI 2025-2026.
+# 3. Gestión de Información
 
----
+## Situación Actual
 
-### Total de Postulaciones por Tipo de Investigador
+-   SEPA-VID es el principal repositorio institucional de datos de investigación. Sin embargo, Para hacer uso estratégico de esta información se requiere:
 
-La Facultad aumentó el número de postulaciones con respecto al año anterior.
+    -   Dedicar tiempo al procesamiento de la base de datos
+    -   Cruzarla con otras bases para recoger variables de interés (caracterización de los académicos, palabras claves, presupuesto, colaboraciones, internacionalización).
 
-| Tipo de Investigador     | Concurso 2025 | Concurso 2026 |
-| ------------------------ | ------------- | ------------- |
-| Coinvestigador           | 44            | 49            |
-| Investigador responsable | 24            | 27            |
+## Propuesta
 
----
+**Desarrollar un sistema local e integrado de gestión y visualización de información científica** que permitea consolidar, actualizar y utilizar estratégicamente los datos de proyectos de investigación en FACSO.
 
-### Investigadores Responsables por Departamento
+**Productos propuestos**
 
-Solamente los departamentos de Antropología y Sociología disminuyeron sus postulaciones respecto al año anterior. 
+1.  **Base de datos integrada de proyectos de investigación** adjudicados y postulados. Debe contar tanto con información de los académicos (departamento, género, jerarquía) como de los proyectos (concurso, monto adjudicado, Investigador Responsable, palabras claves)
 
-| Departamento   | Concurso 2025 | Concurso 2026 |
-| -------------- | ------------- | ------------- |
-| Psicología     | 6             | 6             |
-| Antropología   | 7             | 3             |
-| Educación      | 3             | 7             |
-| Sociología     | 5             | 3             |
-| Trabajo Social | 3             | 8             |
+------------------------------------------------------------------------
 
-::: {.footer}
-**Nota:** Tres de los investigadores que postularon con patrocinio del Departamento de Educación no son parte del claustro departamental.
-:::
+**Productos propuestos**
+
+2.  **Base de datos auxiliares**: Enfocadas en identificar redes de colaboración externa
+
+3.  **Visualización**: Dashboards con información sintética de los principales indicadores relacionados a la investigación en la Facultad.
+
+4.  **Reportes**: Informes con acceso diferenciado a información agregada e individual
+
+5.  **Documentación**: Libros de códigos, manuales de uso y reportes técnicos
+
+## Seguimiento a académicos sin proyectos de investigación
+
+-   Este nuevo sistema de gestión busca identificar no solo proyecto adjudicados, sino también proyectos presentado que no lograron la adjudicación.
+
+-   Esto permitirá identificar claramente a los académicos y perfiles de académicos que no se están adjudicando proyectos individuales o colectivos y proponer líneas de acción específicas.
+
+------------------------------------------------------------------------
+
+-   Además, permitirá identificar la adjudicación de proyectos en relación a las trayectorias académicas, permitiendo distinguir:
+    -   Académicos que postulan y no se adjudican proyectos
+    -   Académicos que dejaron postular - Factores asociados a estas trayectorias (por ejemplo: edad, jerarquizaciones)
+-   Desde ahí, será posible establecer líneas de acción tales como:
+    -   Nuevos Fondos de incentivo
+    -   Asesorías específicas
+
 
 # 5. Incorporación de estudiantes de pregrado en investigación
 

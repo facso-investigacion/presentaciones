@@ -108,6 +108,7 @@ foas |> group_by(afiliacion) %>% summarise(proyectos= n()) |>
 
 ## Apoyos DIP
 
+- Se actualizó la Calculadora de Puntaje por Productividad Fondecyt. Este año se incluyeron también los grupos de estudio Artes y arquitectura,	Historia y Geografía y Urbanismo. 
 - Se realizó un taller de postulación con investigadores que adjudicaron proyectos Fondecyt Regular recientemente. 
 - Se gestionaron seis revisiones por pares, con presupuesto PEEI 2025-2026.
 
@@ -231,8 +232,7 @@ Internacionales:
 - Recomendaciones para un modelo institucional:
   - criterios,
   - mecanismos,
-  - apoyos,
-  - condiciones mínimas
+  - apoyos
 
 
 

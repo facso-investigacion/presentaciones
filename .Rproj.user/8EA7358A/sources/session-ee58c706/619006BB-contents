@@ -6,6 +6,8 @@ format:
   revealjs: 
     footer: "DIP -- FACSO"
     logo: input/imagenes/logo-sociales.jpg
+    theme: simple
+    css: input/estilos/custom-facso.css
 scrollable: true
 editor: visual
 ---
@@ -15,16 +17,16 @@ editor: visual
 1.  Antecedentes
 2.  Gestión de Información
 3.  Resumen Postulaciones a Proyectos Primer Semestre
-4.  Vinculación pregrado
-5.  Fondo Piloto para el Fortalecimiento de la Investigación en Postgrado
+4.  Fondo Piloto para el Fortalecimiento de la Investigación en Postgrado
+5.  Vinculación pregrado
 
-# Antecedentes
+# 1. Antecedentes
 
 ------------------------------------------------------------------------
 
 ![](input/imagenes/antecedentes.png)
 
-# Gestión de Información
+# 2. Gestión de Información
 
 ## Situación Actual
 
@@ -185,7 +187,59 @@ Solamente los departamentos de Antropología y Sociología disminuyeron sus post
 | Trabajo Social            | 1            | 0            |
 | **Total**                 | **7**        | **9**        |
 
-# Vinculación Pregrado
+# 4. Fondo Piloto para el Fortalecimiento de la Investigación en Postgrado
+
+## Contexto
+
+-   En el proceso de autoevaluación institucional, la Facultad identificó como un área prioritaria el fortalecimiento de la vinculación entre las labores de investigación del cuerpo académico y el postgrado.
+-   Componente nuevo del Programa de Estímulo a la Excelencia Institucional (PEEI)
+
+## Objetivo del Fondo
+
+-   Apoyar procesos de investigación y publicación científica de estudiantes
+-   Promover articulación con académicas/os patrocinantes
+-   Incentivar productos de calidad y con impacto académico
+
+## Público objetivo
+
+-   Estudiantes con matrícula vigente en:
+    -   Magíster: entre 2º y 3º semestre
+    -   Doctorado: entre 3º y 7º semestre
+-   Con patrocinio de un/a académico/a (director/a o codirector/a de tesis)
+
+## Financiamiento
+
+-   Monto máximo por proyecto: **\$600.000**
+-   Plazo de ejecución: **hasta 12 meses**
+-   Proyectos deben comprometer un producto final conjunto
+
+## Gastos Financiables
+
+-   Apoyo a levantamiento y análisis de datos:
+    -   Transcripción, digitalización, software, insumos específicos
+-   Servicios para publicación:
+    -   Traducción, proofreading, edición, publicación digital
+-   Publicación de tesis o APC (revistas científicas)
+
+## No son elegibles
+
+-   Asistencia a congresos, cursos o escuelas
+-   Viáticos y trabajo de campo
+-   Compra de equipos
+
+## Compromisos
+
+-   Plazo de entrega del producto: **24 meses**
+-   Reconocimiento obligatorio al fondo en publicaciones derivadas
+-   Certificación del cumplimiento a cargo del académico/a patrocinante
+
+## Próximos Pasos
+
+-   Publicación de bases y formulario de postulación
+-   Difusión a estudiantes y académicas/os
+-   Apertura de convocatoria: **2° semestre 2025**
+
+# 5. Vinculación Pregrado
 
 ## Contexto
 
@@ -287,58 +341,3 @@ Para ello, se requiere un **estudio diagnóstico** que identifique:
     -   criterios,
     -   mecanismos,
     -   apoyos
-
-# Fondo Piloto para el Fortalecimiento de la Investigación en Postgrado
-
-## Contexto
-
-- En el proceso de autoevaluación institucional, la Facultad identificó como un área prioritaria el fortalecimiento de la vinculación entre las labores de investigación del cuerpo académico y el postgrado.
-- Componente nuevo del Programa de Estímulo a la Excelencia Institucional (PEEI)
-
-## Objetivo del Fondo
-- Apoyar procesos de investigación y publicación científica de estudiantes
-- Promover articulación con académicas/os patrocinantes
-- Incentivar productos de calidad y con impacto académico
-
-## Público objetivo
-- Estudiantes con matrícula vigente en:
-  - Magíster: entre 2º y 3º semestre
-  - Doctorado: entre 3º y 7º semestre
-- Con patrocinio de un/a académico/a (director/a o codirector/a de tesis)
-
-## Financiamiento
-- Monto máximo por proyecto: **$600.000**
-- Plazo de ejecución: **hasta 12 meses**
-- Proyectos deben comprometer un producto final conjunto
-
-## Gastos Financiables
-- Apoyo a levantamiento y análisis de datos:
-  - Transcripción, digitalización, software, insumos específicos
-- Servicios para publicación:
-  - Traducción, proofreading, edición, publicación digital
-- Publicación de tesis o APC (revistas científicas)
-
-## No son elegibles
-- Asistencia a congresos, cursos o escuelas
-- Viáticos y trabajo de campo
-- Compra de equipos
-
-## Compromisos
-- Plazo de entrega del producto: **24 meses**
-- Reconocimiento obligatorio al fondo en publicaciones derivadas
-- Certificación del cumplimiento a cargo del académico/a patrocinante
-
-## Próximos Pasos
-- Publicación de bases y formulario de postulación
-- Difusión a estudiantes y académicas/os
-- Apertura de convocatoria: **2° semestre 2025**
-
-
-
-
-
-
-
-
-
-

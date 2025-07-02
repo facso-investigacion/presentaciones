@@ -6,6 +6,8 @@ format:
   revealjs: 
     footer: "DIP -- FACSO"
     logo: input/imagenes/logo-sociales.jpg
+    theme: simple
+    css: input/estilos/custom-facso.css
 scrollable: true
 editor: visual
 ---

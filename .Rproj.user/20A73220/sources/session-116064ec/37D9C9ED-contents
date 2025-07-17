@@ -1,0 +1,60 @@
+##### Identificacion de proyectos que cambiaron de institucion patrocinante #####
+
+# 0. Cargar librerias ----
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(tidyverse,
+       readxl,
+       writexl,
+       janitor)
+
+# 1. Cargar datos ----
+retirados <- read_excel("input/retirados.xlsx", sheet = "Retirados") %>% clean_names()
+proyectos <- read_excel("input/proyectos_2019_2024.xlsx") %>% clean_names()
+
+# 2. Procesar ----
+
+# 2.1. Procesar proyectos ----
+proyectos <- proyectos %>% 
+  # filtrar proyectos aprobados
+  filter(resolucion_proyecto == "Aprobados") %>% 
+  # simplificar categorias tipo de proyecto
+  mutate(
+    institucion = recode(institucion,
+                         "Agencia Nacional De Investigación Y Desarrollo (Anid)" = "ANID",
+                         "Ministerio de Educación" = "MinEduc",
+                         "Ministerio De Ciencia, Tecnología, Conocimiento e Innovación" = "MinCiencia",
+                         "Chile" = "GORE Metropolitano de Santiago"
+    ),
+    concurso = recode(concurso,
+                      "Fondecyt_Anid" = "FONDECYT",
+                      "Iniciativa científica Milenio" = "Iniciativa Científica Milenio"
+    ),
+    instrumento = recode(instrumento,
+                         "FONIS-Proyectos I&D" = "FONIS",
+                         "Concurso Anillos en Ciencias Sociales" = "Anillos en Ciencias Sociales",
+                         "Concurso Apoyo a Centros de Excelencia FONDAP" = "Apoyo a Centros de Excelencia FONDAP",
+                         "Nucleo Investigación Cs. Sociales" = "Núcleos Milenio en Ciencias Sociales"
+    ),
+    rut_investigador_1 = ifelse(nchar(rut_investigador_1) == 9, paste0("0", rut_investigador_1), rut_investigador_1),
+    rut_investigador_1 = ifelse(nchar(rut_investigador_1) == 8, paste0("00", rut_investigador_1), rut_investigador_1)
+  ) %>% 
+  # eliminar filas sin autor
+  filter(investigador_1 != "-") %>% 
+  # seleccionar columnas utiles
+  select(titulo, institucion, concurso, instrumento, 
+         anio_concurso=ano_concurso, estado_proyecto, duracion, fecha_inicio, fecha_termino, 
+         investigador_1, rut=rut_investigador_1)
+
+
+# 2.2. Filtrar por academicos retirados ----
+retirados1 <- proyectos %>% 
+  inner_join(retirados, by = "rut")
+
+# supuestamente solo deberia ser 1 proyecto, de Cabib
+# revisando, parece ser que es el unico profesor, junto con Jenny Moreno y Ma Jesus Viviani que se ha ido de FACSO
+# el problema es que la mayoria de los proyectos fugados son de investigadores postdoctorales 
+#   o investigadores patrocinados por la Facultad pero sin nombramiento
+# si bien funciona el cruce de datos, no es de utilidad esta revision
+
+

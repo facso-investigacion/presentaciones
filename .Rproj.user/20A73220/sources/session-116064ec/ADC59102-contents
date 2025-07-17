@@ -1,0 +1,194 @@
+---
+title: "Ejercicio Técnico - Fundación Luksic"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r cargar-paquetes}
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(tidyverse, # dplyr-ggplot2-lubridate-magrittr-readxl-readr-haven-stringr-etc
+       writexl,
+       janitor,
+       mice) # para imputar
+```
+
+
+# Carga y limpieza de datos
+
+```{r cargar-datos}
+# Datos simulados
+estudiantes <- read_csv("../input/Base_de_Estudiantes.csv") %>% clean_names()
+colegios <- read_csv("../input/Base_de_Colegios.csv") %>% clean_names()
+
+# si el csv es mas cochino
+# datos <- read.csv("input/data/CASEN.csv", 
+#                   sep=",", 
+#                   na.strings = c("No sabe", NA),
+#                   encoding = "UTF-8", # o Latin-1
+#                   blank.lines.skip = TRUE,
+#                   stringsAsFactors = TRUE)
+
+# Revisar bases
+str(estudiantes)
+summary(estudiantes)
+View(colegios)
+
+# si fuera labelled, podria cargar sjPlot y usar view_df
+
+# no olvidar que si hubiera dos bases de colegio podria unir filas con bind_rows()
+```
+
+**Validación de datos:**
+
+```{r validar-plausibles}
+estudiantes %>% 
+  filter(puntaje_matematica < 0 | puntaje_matematica > 850 |
+         puntaje_lenguaje < 0 | puntaje_lenguaje > 850)
+
+sum(duplicated(estudiantes$id_estudiante)) # verificar que ids sean unicos
+
+```
+
+No se observan valores fuera de rango plausible. Si existieran, propondría eliminarlos o imputarlos dependiendo del caso.
+
+```{r validar-faltantes}
+
+anyNA(estudiantes) #Revisamos si hay casos perdidos en el total del set de datos 
+sum(is.na(estudiantes$puntaje_lenguaje)) #Revisamos n casos perdidos en puntaje leng
+
+# Ojo: es posible usar mice para ver si hay un patron
+# md.pattern(estudiantes, rotate.names = TRUE) 
+
+# There  are  four  classes of  statistical  methods  for  analyzing  data  with  missing  values:  
+# complete  case  (CC) methods,  na.omit() or drop_na() 
+
+# imputation  methods,  
+
+# single imputation: reemplazar con la media o la mediana
+# multi: Imputar con marca de clase o predictive  mean  matching (method = "pmm")
+
+# weighting  methods,  
+# and  model-based  methods
+
+# Dicotomizar con media o mediana
+# wage1$med_wage = ifelse(wage1$wage >= median(wage1$wage), 1, 0)
+# wage1$mean_wage = ifelse(wage1$wage >= mean(wage1$wage), 1, 0)
+
+# no olvidar que en select es nuevo_nombre = nombre_original 
+# y se puede usar asi para reordenar: select(id_persona, sexo, edad, everything())
+# y no olvidar operadores select(starts_with("y1")&ends_with("preg")) 
+
+# ejemplo de un buen filter:
+# datos_proc$prev <- as_factor(datos_proc$prev)
+# filter(datos_proc, prev %in% c("Sistema Público FONASA", "ISAPRE") & edad >= 65)
+
+```
+
+# Más procesamiento
+```{r}
+# Ejemplo fino de mutate
+# datos %>%
+#   mutate(sexo = car::recode(.$sexo, c('"Mujer"="Femenino";"Hombre"= "Masculino"'),
+#               as.factor = T, # Transformar en factor
+#               levels = c("Masculino", "Femenino")), #Ordenamos los niveles del factor
+#          ife_d = ifelse(ife == 1 & sexo == 'Mujer', 1, 0),
+#          validador_ingreso = ifelse(is.na(ytoth), FALSE, TRUE),
+#          edad_tramo = case_when(edad <=39 ~  "Joven",
+#                                 edad > 39 & edad <=59 ~ "Adulto",
+#                                 edad > 59 ~ "Adulto mayor",
+#                                 TRUE ~ NA_character_),
+#          sexo_edad_tramo = case_when(sexo == "Hombre" & edad <=39 ~  "Hombre joven",
+#                                 sexo == "Mujer" & edad <=39 ~  "Mujer joven",
+#                                 sexo == 'Hombre' & (edad > 39 & edad <=59) ~ "Hombre adulto",
+#                                 sexo == 'Mujer' & (edad > 39 & edad <=59) ~ "Mujer adulta",
+#                                 sexo == 'Hombre' & edad > 59 ~ "Adulto mayor",
+#                                 sexo == 'Mujer' & edad > 59 ~ "Adulta mayor",
+#                                 TRUE ~ NA_character_))
+
+# Mutate para varias con los mismos criterios:
+# mutate_at(vars(ocupacion, ife), ~(as.numeric(.)))
+# mutate_all(~(as.character(.)))
+
+
+
+```
+
+
+
+# Cruce de bases
+
+```{r cruce-datos}
+# Opcion key se llama igual
+estudiantes1 <- estudiantes %>% 
+  left_join(colegios, by = "id_colegio")
+
+# Opcion key se llama distinta
+estudiantes2 <- merge(estudiantes, colegios,
+                     by.x = "id_colegio",
+                     by.y = "id_colegio")
+
+# Resumen por tipo de dependencia
+estudiantes1 %>% 
+  count(dependencia)
+
+# Resumen por región
+estudiantes1 %>% 
+  count(region)
+```
+
+# Análisis descriptivo
+
+## Puntajes promedio por curso y sexo
+
+```{r promedio-por-curso}
+estudiantes1 %>% 
+  group_by(curso, sexo) %>% 
+  summarise(
+    promedio_mate = mean(puntaje_matematica, na.rm = TRUE),
+    promedio_leng = mean(puntaje_lenguaje, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+## Brechas de género: gráfico
+
+```{r grafico-genero}
+estudiantes1 %>% 
+  pivot_longer(cols = starts_with("puntaje"), 
+               names_to = "Materia", values_to = "Puntaje") %>%
+  group_by(sexo, Materia) %>% 
+  summarise(Promedio = mean(Puntaje), .groups = "drop") %>% 
+  ggplot(aes(x = Materia, y = Promedio, fill = sexo)) +
+  geom_col(position = "dodge") +
+  labs(title = "Brechas de género en puntajes", y = "Promedio")
+```
+
+## Puntaje promedio total por dependencia
+
+```{r promedio-dependencia}
+estudiantes1 %>% 
+  mutate(prom_matleng = puntaje_matematica + puntaje_lenguaje) %>% 
+  group_by(dependencia) %>% 
+  summarise(prom_matleng = mean(prom_matleng, na.rm = TRUE)) %>% 
+  arrange(desc(prom_matleng))
+```
+
+# Interpretación y recomendaciones
+
+**Observaciones:**
+
+- En promedio, las mujeres presentan un rendimiento levemente superior en lenguaje, mientras que los hombres destacan en matemática.
+- Se observan diferencias por tipo de colegio. Los colegios particulares pagados tienden a presentar mejores promedios.
+
+**Recomendación:**
+
+En base a los puntajes, una intervención inicial podría centrarse en estudiantes de 2° y 3° Medio de colegios municipales, especialmente en reforzamiento de lenguaje, donde se observan brechas más pronunciadas y menor desempeño general.

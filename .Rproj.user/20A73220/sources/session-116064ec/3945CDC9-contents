@@ -1,0 +1,120 @@
+#### Procesamiento SEPA-VID ####
+
+# 0. Cargar librerias ----
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(tidyverse,
+       readxl,
+       writexl,
+       janitor)
+
+
+# 1. Cargar datos ----
+proyectos <- read_excel("input/proyectos_2019_2024.xlsx") %>% clean_names()
+publicaciones_1 <- read_excel("input/publicaciones_2018_2021.xlsx") %>% 
+  clean_names() %>% 
+  mutate(numero_revista = as.character(numero_revista),
+         across(starts_with("rut_autor"), as.character))
+publicaciones_2 <- read_excel("input/publicaciones_2022_2024.xlsx") %>% 
+  clean_names() %>% 
+  mutate(isbn = as.character(isbn),
+         across(starts_with("rut_autor"), as.character))
+
+publicaciones <- bind_rows(publicaciones_1, publicaciones_2)
+rm(publicaciones_1)
+rm(publicaciones_2)
+
+
+# 2. Procesar ----
+
+# 2.1. Procesar proyectos ----
+proyectos <- proyectos %>% 
+  # filtrar proyectos aprobados
+  filter(resolucion_proyecto == "Aprobados") %>% 
+  # simplificar categorias tipo de proyecto
+  mutate(
+    institucion = recode(institucion,
+                         "Agencia Nacional De Investigación Y Desarrollo (Anid)" = "ANID",
+                         "Ministerio de Educación" = "MinEduc",
+                         "Ministerio De Ciencia, Tecnología, Conocimiento e Innovación" = "MinCiencia",
+                         "Chile" = "GORE Metropolitano de Santiago"
+    ),
+    concurso = recode(concurso,
+                      "Fondecyt_Anid" = "FONDECYT",
+                      "Iniciativa científica Milenio" = "Iniciativa Científica Milenio"
+    ),
+    instrumento = recode(instrumento,
+                         "FONIS-Proyectos I&D" = "FONIS",
+                         "Concurso Anillos en Ciencias Sociales" = "Anillos en Ciencias Sociales",
+                         "Concurso Apoyo a Centros de Excelencia FONDAP" = "Apoyo a Centros de Excelencia FONDAP",
+                         "Nucleo Investigación Cs. Sociales" = "Núcleos Milenio en Ciencias Sociales"
+    ),
+    asociativo = if_else(instrumento %in% c("Anillos en Ciencias Sociales", 
+                                              "Apoyo a Centros de Excelencia FONDAP",
+                                              "Núcleos Milenio en Ciencias Sociales"), 1, 0),
+    inv_aplicada = if_else(instrumento %in% c("FONIDE", 
+                                            "FONIS",
+                                            "IDEA",
+                                            "IDEA I+D",
+                                            "Proyectos-Investigación"), 1, 0),
+  ) %>% 
+  # pasar de formato wide a long (un investigador y proyecto por c/fila)
+  pivot_longer(
+    cols = matches("(investigador_\\d+|tipo_investigador\\d+|rut_investigador\\d+)"),
+    names_to = c(".value", "n_investigador"),
+    names_pattern = "(.*?)(\\d+)"
+  ) %>%
+  # eliminar filas sin autor
+  filter(investigador_ != "-") %>% 
+  # seleccionar columnas utiles
+  select(id_vid=codigo, titulo, institucion, concurso, instrumento, asociativo, inv_aplicada, 
+         anio_concurso=ano_concurso, estado_proyecto, duracion, fecha_inicio, fecha_termino, 
+         investigador=investigador_, rut_investigador=rut_investigador_, tipo_investigador=tipo_investigador_, n_investigador, 
+         disciplina_principal, area_disciplina_principal, disciplina_exacta_principal)
+
+
+# 2.2. Procesar publicaciones ----
+
+publicaciones <- publicaciones %>% 
+  # crear variables por tipo de indexacion
+  mutate(
+    wos = if_else(ut_isi_wos == "Sin información", 0, 1),
+    scielo_chile = if_else(scielo_chile == "Sin información", 0, 1),
+    scielo_otro_pais = if_else(scielo_otro_pais == "Sin información", 0, 1),
+    scopus = if_else(eid_scopus == "Sin información", 0, 1),
+    esci = if_else(esci == "Sin información", 0, 1),
+    otros_ut = if_else(otros_ut == "Sin información", 0, 1),
+    # Simplificar categorias de tipo de documento
+    tipo_documento = recode(tipo_documento,
+                            "LIBRO" = "Libro",
+                            "Resumen de reunion" = "Resumen de reunión",
+                            "Revisión de libros" = "Revisión")) %>% 
+  # pasar de formato wide a long (un autor y documento por c/fila)
+  pivot_longer(
+    cols = matches("(_autor\\d+|alias\\d+|depto_autor\\d+|rut_autor\\d+)"),
+    names_to = c(".value", "n_autor"),
+    names_pattern = "(.*?)(\\d+)"
+  ) %>%
+  # eliminar filas sin autor
+  filter(!is.na(nombre_autor)) %>%  
+  arrange(id_vid_publicacion, n_autor) %>% 
+  # seleccionar columnas utiles
+  select(id_vid_publicacion, doi, tipo_documento, anio=ano, titulo_de_documento, titulo_revista, # ids publicacion
+         autor_unico, n_autor, nombre_autor, depto_autor, rut_autor, # ids autor
+         wos, scopus, esci, scielo_chile, scielo_otro_pais, otros_ut, indexado_en) # indexacion
+
+# 3. Ajustar para cruce con base de datos interna ----
+proyectos <- proyectos %>% 
+  mutate(rut_investigador = ifelse(nchar(rut_investigador) == 9, paste0("0", rut_investigador), rut_investigador),
+         rut_investigador = ifelse(nchar(rut_investigador) == 8, paste0("00", rut_investigador), rut_investigador))
+
+publicaciones <- publicaciones %>% 
+  mutate(rut_autor = ifelse(nchar(rut_autor) == 9, paste0("0", rut_autor), rut_autor),
+         rut_autor = ifelse(nchar(rut_autor) == 8, paste0("00", rut_autor), rut_autor))
+
+# 4. Filtrar por academicos FACSO ----
+academicos <- readRDS("output/academicos_proc.rds")
+
+
+
+# filtrar internos uch

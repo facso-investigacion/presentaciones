@@ -1,0 +1,270 @@
+---
+title: "Taller Evaluado de Regresión Logística"
+subtitle: |
+  | Pontificia Universidad Católica de Chile
+  | Facultad de Matemática
+  | Diplomado en Estadística
+  | Profesor: Jonathan Acosta
+author: "Carolina Carrillo Devia y María Jesús Meléndez Berndt"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output: 
+  html_document: default
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Instrucciones
+Para este taller pueden trabajar en parejas y se utilizará el conjunto de datos prostate de la libreria faraway.
+
+Este conjunto de datos contiene información sobre 97 pacientes con cáncer de próstata. Considere la variable respuesta como svi (seminal vesicle invasion). Esta variable indica si el cáncer se ha extendido a la vesícula seminal (1) o no (0). Las demás variables serán consideradas como variables explicativas. El objetivo es ajustar un modelo de regresión logística para predecir la invasión de la vesícula seminal.
+
+Realizar una descomposición aleatoria de la base de datos con la proporción 90%-10% para train y test, respectivamente. 
+
+```{r load}
+library(pacman) # se cargan los paquetes necesarios
+p_load(faraway,
+       caret,
+       ggplot2)
+
+prostate$svi <- factor(prostate$svi) # conjunto de datos prostate
+```
+
+```{r sample}
+set.seed(1) # para reproducibilidad
+id=sample.int(nrow(prostate), ceiling(nrow(prostate)*0.9)) # muestreo aleatorio
+
+prostate_train <- prostate[id,] # datos para entrenamiento 90%
+prostate_test <- prostate[-id,] # datos para test 10%
+```
+
+## Desarrollo
+
+#### Pregunta 1: Realice un análisis de inflación de varianzas (VIF) y de ser necesario elimine todas aquellas necesarias de modo de garantizar un vif menor a 8.
+
+```{r vif}
+prostate_train$gleason <- as.factor(prostate_train$gleason)
+
+faraway::vif(prostate_train[,c("lcavol", "lweight", "age", "lbph", "lcp", "pgg45", "lpsa")]) #no consideramos la variable categorica
+
+```
+
+
+#### Pregunta 2: Utilizando la data prostate_train realice una gráfica apropiada entre la variable respuesta y cada una de las covariables. Según esta perpespectiva gráfica, ¿Existe alguna de ellas que pueda explicar la variable respuesta?
+
+```{r explorar-variables}
+summary(prostate_train)
+```
+
+
+La variable gleason puede ser tratada como polinómica ordinal, ya que sólo cuenta con cuatro valores distintos y estos tienen un orden preestablecido. Las demás variables son de tipo continua.
+
+```{r graph-lcavol}
+ggplot(prostate_train, aes(x=svi, y=lcavol, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("log(cancer volume)")+xlab("")
+```
+
+```{r graph-lweight}
+ggplot(prostate_train, aes(x=svi, y=lweight, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("log(prostate weight)")+xlab("")
+```
+
+
+```{r graph-age}
+ggplot(prostate_train, aes(x=svi, y=age, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("Edad")+xlab("")
+```
+
+
+```{r graph-lbph}
+ggplot(prostate_train, aes(x=svi, y=lbph, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("log(benign prostatic hyperplasia amount)")+xlab("")
+```
+
+
+```{r graph-lcp}
+ggplot(prostate_train, aes(x=svi, y=lcp, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("log(capsular penetration)")+xlab("")
+```
+
+```{r graph-gleason}
+ggplot(prostate_train, aes(fill=svi, x=gleason )) + geom_bar()+
+  ylab("")+xlab("Gleason score")
+```
+
+```{r graph-pgg45}
+ggplot(prostate_train, aes(x=svi, y=pgg45, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("percentage Gleason scores 4 or 5")+xlab("")
+```
+
+```{r graph-lpsa}
+ggplot(prostate_train, aes(x=svi, y=lpsa, fill=svi))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(fill=c("orange","skyblue"), alpha=0.75, width=0.25)+
+  scale_fill_manual(values = c("orange","skyblue"))+
+  ylab("log(prostate specific antigen)")+xlab("")
+```
+Desde una perspectiva gráfica, pareciera que las variables lcp, pgg45 y lpsa pudieran ser buenos predictores de svi.
+
+#### Pregunta 3: Utilizar el criterios de Akaike (AIC), la metodología stepwise (puede ser backward, forward o both, indique explícitamente cuál utilizará) y la función de enlace logit para determinar el modelo de regresión logística que mejor ajusta a la variable respuesta.
+
+Se utilizará la metodología paso a paso hacia atrás (backward), para evaluar la disminución de AIC eliminando los predictores del modelo uno a uno, a partir del modelo con todos los predictores.
+
+```{r logit}
+reglog01 <- glm(svi~., data=prostate_train, family=binomial(link = "logit"))
+reglog02 <- step(reglog01, direction="backward")
+```
+
+#### Pregunta 4: Analice la significancia del modelo obtenido luego del proceso de selección, y responda si:
+
+##### a. ¿Es el modelo obtenido significativo?
+
+```{r pchisq-null-logit}
+1-pchisq(reglog02$null.deviance-reglog02$deviance, reglog02$df.null-reglog02$df.residual)
+```
+Aplicando una prueba de chi-cuadrado a la diferencia de la devianza, que evalúa la significación estadística de la mejora en el ajuste entre el modelo nulo y el modelo reglog02, el valor p resultante (1.61 * 10^-12) es mucho menor que el umbral de 0.05. 
+Esto significa que se puede rechazar la hipótesis nula, de que los predictores del modelo no mejoran el ajuste con respecto al modelo nulo. De esta forma, podemos concluir que el modelo es estadísticamente significativo.
+
+```{r pchisq-full-logit}
+anova(reglog02, reglog01, test="Chisq")
+```
+
+Sin embargo, tras evaluar la diferencia de la devianza entre el modelo con todos los predictores y el modelo reglog02, el valor p resultante es de 0.5629, por lo que la diferencia de desviación entre los dos modelos no es estadísticamente significativa. Esto sugiere que la eliminación de los predictores del modelo reglog01 no conduce a un ajuste significativamente mejor
+
+##### b. ¿Existe alguna covariable no significativa?
+
+```{r summary-logit}
+summary(reglog02)
+```
+
+Ambas variables (lcp y lpsa) son estadísticamente significativas (valores p < 0.05), por lo que no podemos rechazar la hipótesis de que el logaritmo de la capsular penetration y el logaritmo prostate specific antigen no afectan la invasión de la vesícula seminal.
+
+##### c. ¿En caso de existir alguna covariable no significativa, la quitaría del modelo?. Fundamente.
+
+En caso de existir una covariable no significativa, no necesariamente la quitaría del modelo.
+
+Como este modelo fue escogido a través del método paso a paso, utilizando el AIC, el hecho de que un predictor esté en el modelo a pesar de no ser significativo se debería a que su inclusión contribuye a mejorar el ajuste global del modelo. 
+
+En ese caso sería importante evaluar con detenimiento, porque un modelo con predictores ligeramente no significativos podría tener un mejor AIC, pero también podría tener un AIC apenas levemente menor que el modelo más simple, en cuyo caso podría ser más importante la parsimonia del modelo o la fundamentación teórica.
+
+
+##### d. Utilice los odd-ratios para interpretar las variables del modelo final.
+
+```{r odds-ratio}
+exp(coef(reglog02))
+
+```
+
+Un odd-ratio de 3.6442 indica que por cada unidad extra en el logaritmo de capsular penetration, las probabilidades de invasión de la vesícula seminal (svi) se multiplican aproximadamente por 3.64 (264% más alta), manteniendo lpsa constante. En este sentido, está fuertemente asociada.
+
+Un odd-ratio de 8.0394 indica que por cada unidad extra en el logaritmo de prostate specific antigen, las probabilidades de invasión de la vesícula seminal (svi) se multiplican aproximadamente por 8.04 (704% más alta), manteniendo lcp constante. 
+
+De esta forma, un mayor lpsa se asocia aún más fuertemente que lcp con mayores probabilidades de invasión de la vesícula seminal (OR lpsa [8.04] > OR lcp [3.64]). 
+
+
+#### Pregunta 5: Repita el proceso de las preguntas 3 y 4 con la función de enlace probit.
+
+```{r probit}
+regprob01 <- glm(svi~., data=prostate_train, family=binomial(link = "probit"))
+regprob02 <- step(regprob01, direction="backward")
+```
+
+##### a. ¿Es el modelo obtenido significativo?
+
+```{r p-chisq}
+anova(regprob02, regprob01, test="Chisq")
+```
+
+
+Dada la gran diferencia entre la desviación del modelo nulo y el modelo regprob2 (55.02) con 2 grados de libertad, el modelo es estadísticamente significativo. Los valores p > 0.01 asociados a los coeficientes confirman la significación global del modelo.
+
+##### b. ¿Existe alguna covariable no significativa?
+
+```{r summary-probit}
+summary(regprob02)
+```
+
+Ambas variables (lcp y lpsa) son estadísticamente significativas (valores p < 0.01), por lo que no podemos rechazar la hipótesis de que el logaritmo de la capsular penetration y el logaritmo prostate specific antigen no afectan la invasión de la vesícula seminal (svi).
+
+##### c. ¿En caso de existir alguna covariable no significativa, la quitaría del modelo?. Fundamente.
+
+Ninguna es no significativa. Y en caso de existir una covariable no significativa, no necesariamente la quitaría del modelo, por las razones expresadas en la respuesta anterior.
+
+
+#### Pregunta 6: Utilice algún criterio apropiado para definir cuál de los dos modelos finales (logit o probit) es el mejor.
+
+```{r deviance}
+reglog02$deviance; regprob02$deviance
+
+```
+```{r pseudo-R2}
+(reglog02$null.deviance-reglog02$deviance)/reglog02$null.deviance ; (regprob02$null.deviance-regprob02$deviance)/regprob02$null.deviance
+```
+Como la deviance del modelo probit es menor y tiene un mayor pseudo-R2, se concluye que es el modelo que mejor se ajusta a los datos.
+
+
+#### Pregunta 7: Realice la predicción para los datos de la muestra `prostate.test’ con ambos modelos. Incluya un intervalo de confianza para las predicciones.
+
+```{r predict-logit}
+predict_log <- predict(reglog02, prostate_test, "response") 
+predict_log0 <-predict(reglog02, prostate_test, se.fit = T)
+cbind(prostate_test,
+      round(data.frame(predict_log, 
+           limInf=ilogit(predict_log0$fit-qnorm(0.975)*predict_log0$se.fit),
+           limSup=ilogit(predict_log0$fit+qnorm(0.975)*predict_log0$se.fit)),4))
+```
+
+
+```{r predict-probit}
+predict_prob <- predict(regprob02, prostate_test, "response") 
+predict_prob0 <-predict(regprob02, prostate_test, se.fit = T)
+cbind(prostate_test,
+      round(data.frame(predict_prob, 
+           limInf=ilogit(predict_prob0$fit-qnorm(0.975)*predict_prob0$se.fit),
+           limSup=ilogit(predict_prob0$fit+qnorm(0.975)*predict_prob0$se.fit)),4))
+
+```
+En ambas tablas, la probabilidad por individuo está representada en la variable “pred”, acompañada por un intervalo de confianza al 95%. El límite inferior del intervalo se encuentra en la variable “limInf”, mientras que el límite superior está en “limSup”. Las diferencias observadas entre los dos modelos se deben a la utilización de diferentes funciones de enlace para calcular las probabilidades.
+
+#### Pregunta 8: Utilice el punto de corte 0.5 para realizar la clasificación. Reporte las dos matrices de confusión (una de cada modelo). Utilice la exactitud (accuracy) para indicar cuál modelo es mejor. ¿El modelo mejor es el mismo indicado en la pregunta 6?
+
+```{r validate-logit}
+caret::confusionMatrix(factor(ifelse(predict(reglog02, prostate_test, type="response")>=0.5,1,0)), 
+                       prostate_test$svi, mode = "everything")
+
+```
+
+```{r validate-probit}
+caret::confusionMatrix(factor(ifelse(predict(regprob02, prostate_test, type="response")>=0.5,1,0)), 
+                       prostate_test$svi, mode = "everything")
+
+```
+
+Ambos modelos tienen una exactitud de 1, por lo que no es posible escoger un modelo con este método.
+
+Sin embargo, como el dataset de testeo tiene solo nueve datos, puede que esta predicción perfectamente exacta se deba simplemente al número limitado de casos. 
+
+Para comparar mejor ambos modelos, podría realizarse una validación cruzada k-fold utilizando múltiples sub-sets de datos.

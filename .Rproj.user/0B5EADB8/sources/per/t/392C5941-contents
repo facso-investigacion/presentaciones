@@ -1,0 +1,189 @@
+---
+title: "Ejercicio Técnico - Fundación Luksic"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Carga de paquetes
+
+```{r cargar-paquetes}
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(tidyverse, 
+       janitor)
+```
+
+# Carga y limpieza de datos
+
+```{r cargar-datos}
+egresados_em <- read.csv("../input/20230313_Notas_y_Egresados_Enseñanza_Media_2023_PUBL.csv",
+                         sep = ";",
+                         dec = ",",
+                         encoding = "Latin-1",
+                         blank.lines.skip = TRUE,
+                         stringsAsFactors = TRUE) %>% clean_names()
+
+matriculas_es <- read.csv("../input/20230802_Matrícula_Ed_Superior_2024_PUBL_MRUN.csv",
+                         sep = ";",
+                         dec = ",",
+                         encoding = "Latin-1",
+                         blank.lines.skip = TRUE,
+                         stringsAsFactors = TRUE) %>% clean_names()
+
+# Revisar bases
+str(egresados_em)
+View(egresados_em)
+str(matriculas_es) #acre_inst_desde_hasta deberia ser date
+View(matriculas_es)
+
+```
+
+a. En la base de Notas y Egresados Enseñanza Media 2023: Filtrar estudiantes (Niños y Jóvenes) que hayan egresado (marca_egreso == 1) de EMTP en 2023 -> cod_ense 410, 510, 610, 710, 810
+
+b. En la base de Matrícula Educación Superior 2024: Filtrar estudiantes nuevos matriculados (anio_ing_carr_act == 2024) en programas de pregrado (nivel_global == Pregrado) de 4 semestres o más (dur_total_carr >= 4)
+
+
+```{r filtrar}
+egresados_em <- egresados_em %>% 
+  filter(marca_egreso == 1 & cod_ense %in% c(410, 510, 610, 710, 810))
+
+matriculas_es <- matriculas_es %>% 
+  filter(anio_ing_carr_act == 2024 & nivel_global == "Pregrado" & dur_total_carr >= 4)
+
+```
+
+# Cruce de bases de datos
+
+Otras variables que necesito:
+
+- mrun
+- gen_alu
+- tipo_inst_1
+- area_conocimiento
+
+```{r verificar-ids}
+sum(duplicated(egresados_em$mrun)) # ids son unicos
+sum(duplicated(matriculas_es$mrun)) # ids no son unicos
+```
+
+```{r merge}
+caso_estudio <- egresados_em %>% 
+  left_join(matriculas_es, by = "mrun")
+
+sum(is.na(caso_estudio$anio_ing_carr_act)) # 36515 NA: Crear variable de ingreso_es
+
+caso_estudio <- caso_estudio %>% 
+  mutate(ingreso_es = ifelse(is.na(anio_ing_carr_act), FALSE, TRUE)) %>% 
+  select(mrun, ingreso_es, gen_alu, tipo_inst_1, area_conocimiento)
+
+```
+
+
+# Análisis descriptivo
+
+## Egreso EMTP y Acceso a ES
+i. Elaborar una tabla o gráfico del total de egresados de EMTP en 2023
+ii. Elaborar una tabla o gráfico de la cantidad y porcentaje que ingresaron a ES
+
+```{r tablas-acceso-es}
+tabla_acceso_es <- caso_estudio %>%
+  summarise(
+    `Egresados EMTP (2023)` = n(),
+    `Matriculados en ES (2024)` = sum(ingreso_es),
+    `Porcentaje matriculados en ES` = round(100 * `Matriculados en ES (2024)` / `Egresados EMTP (2023)`, 1)
+  )
+
+knitr::kable(tabla_acceso_es, caption = "Transición a la educación superior entre egresados de EMTP (2023)")
+
+```
+
+## Tipo de institución (entre egresados EMTP que ingresaron a ES)
+i. Elaborar una tabla o gráfico de la cantidad y porcentaje de estudiantes según tipo de ES (Universidad, Instituto Profesional, Centro de Formación Técnica)
+
+```{r}
+tipo_institucion <- caso_estudio %>%
+  filter(ingreso_es == TRUE) %>% 
+  group_by(tipo_inst_1) %>%
+  summarise(Matriculados = n()) %>%
+  mutate(
+    Porcentaje = round(100 * Matriculados / sum(Matriculados), 1))
+
+knitr::kable(tipo_institucion, caption = "Titulados de EMTP que acceden a la ES por tipo de institución")
+
+```
+
+
+## Área de conocimiento (entre egresados EMTP que ingresaron a ES)
+i. Elaborar una tabla o gráfico de la cantidad y porcentaje de estudiantes según área de conocimiento
+
+```{r}
+area_conoc <- caso_estudio %>%
+  filter(ingreso_es == TRUE) %>% 
+  group_by(area_conocimiento) %>%
+  summarise(Matriculados = n()) %>%
+  mutate(
+    Porcentaje = round(100 * Matriculados / sum(Matriculados), 1),
+    etiqueta = paste0(Matriculados, " (", Porcentaje, "%)"))
+
+ggplot(area_conoc, aes(x = fct_reorder(area_conocimiento, Matriculados), y = Matriculados)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = etiqueta), hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  labs(
+    title = "Titulados de EMTP que acceden a la ES por área de conocimiento",
+    x = "Área de conocimiento",
+    y = "Matriculados"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13)) +
+  expand_limits(y = max(area_conoc$Matriculados) * 1.15)
+    
+```
+
+## Área de conocimiento y género (entre egresados EMTP que ingresaron a ES)
+i. Elaborar una tabla o gráfico de la cantidad y porcentaje de estudiantes según área de conocimiento, desagregado por género
+
+```{r}
+genero_area <- caso_estudio %>%
+  filter(ingreso_es == TRUE) %>%
+  mutate(
+    genero = recode(gen_alu, `1` = "Masculino", `2` = "Femenino")) %>%
+  group_by(area_conocimiento, genero) %>%
+  summarise(Matriculados = n(), .groups = "drop") %>%
+  group_by(area_conocimiento) %>%
+  mutate(
+    Porcentaje = round(100 * Matriculados / sum(Matriculados), 1),
+    etiqueta = paste0(Matriculados, " (", Porcentaje, "%)"))
+
+ggplot(genero_area, aes(x = reorder(area_conocimiento, Matriculados), y = Matriculados, fill = genero)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = etiqueta),
+            vjust = -0.4,
+            size = 3.2) +
+  coord_flip() +
+  facet_wrap(~ genero) +
+  labs(
+    title = "Titulados de EMTP que acceden a la ES por área de conocimiento y género",
+    x = "Área de conocimiento",
+    y = "Matriculados"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12),
+    strip.text = element_text(size = 11),
+    axis.text.y = element_text(size = 9)
+  ) +
+  expand_limits(y = max(genero_area$Matriculados) * 1.2)
+
+
+```
+

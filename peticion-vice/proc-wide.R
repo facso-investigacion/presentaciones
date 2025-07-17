@@ -1,0 +1,200 @@
+#### Procesamiento datos anuales ####
+
+# 0. Cargar librerias ----
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(tidyverse,
+       readxl,
+       writexl,
+       janitor)
+
+postulaciones <- read_rds("peticion-vice/input/proyectos-2020-2026.rds")
+academicos <- read_excel("peticion-vice/input/Acad.xlsx") %>% clean_names()
+
+# 1. Procesar datos academicos ----
+academicos <- academicos %>% 
+  mutate(
+    reparticion = recode(reparticion,
+                         "Departamento de Trabajo Social" = "Trabajo Social",
+                         "Dpto. de  Psicología (funcionamiento)" = "Psicología",
+                         "Dpto. de Antropología (funcionamiento)" = "Antropología",
+                         "Dpto. de Sociología (funcionamiento)" = "Sociología",
+                         "Dpto. Educación (funcionamiento)" = "Educación",
+                         "Escuela Postgrado" = "Postgrado"),
+    categoria = recode(jerarquia,
+                       "Investigador(a) Postdoctoral" = "Investigador(a) Postdoctoral",
+                       "Pendiente" = "Pendiente",
+                       "Prof. Asistente - Categ. Academica Doc." = "Docente",
+                       "Prof. Asociado - Categ. Academica Doc." = "Docente",
+                       "Prof.Titular - Categ. Academica Doc." = "Docente",
+                       "Prof. Asistente - Categ. Academica Ord." = "Ordinaria",
+                       "Prof. Asociado - Categ. Academica Ord." = "Ordinaria",
+                       "Prof.Titular - Categ. Academica Ord." = "Ordinaria",
+                       "Prof. Adjunto" = "Prof. Adjunto"),
+    jerarquia = recode(jerarquia,
+                       "Investigador(a) Postdoctoral" = "Investigador(a) Postdoctoral",
+                       "Pendiente" = "Pendiente",
+                       "Prof. Asistente - Categ. Academica Doc." = "Asistente",
+                       "Prof. Asociado - Categ. Academica Doc." = "Asociado",
+                       "Prof.Titular - Categ. Academica Doc." = "Titular",
+                       "Prof. Asistente - Categ. Academica Ord." = "Asistente",
+                       "Prof. Asociado - Categ. Academica Ord." = "Asociado",
+                       "Prof.Titular - Categ. Academica Ord." = "Titular",
+                       "Prof. Adjunto" = "Adjunto"),
+    jce = horas_reales/44,
+    fech_ing_u = year(fech_ing_u),
+    ingreso_reciente = case_when(
+      fech_ing_u <= 2014 ~ "Ingreso previo a 2015",
+      fech_ing_u > 2014 & fech_ing_u <= 2020 ~ "Ingreso 2015-2020",
+      fech_ing_u > 2020  ~ "Ingreso 2020-2025"
+    ),
+    edad_tramos = case_when(
+      edad <= 40 ~ "Menores de 40",
+      edad > 40 & edad <= 50 ~ "40-49 años",
+      edad > 50 & edad <= 60 ~ "50-59 años",
+      edad > 60 & edad <= 70 ~ "60-69 años",
+      edad > 70 & edad <= 80 ~ "70-79 años",
+      edad > 80 ~ "Mayores de 80",
+    ),
+    nombre_completo = paste(nombres, paterno, materno),
+    nombre_completo = gsub("\\.", " ", nombre_completo), # Reemplazar puntos por espacio
+    nombre_completo = gsub("\\_", " ", nombre_completo), # Reemplazar guion bajo por espacio
+    nombre_completo = gsub("\\-", " ", nombre_completo), # Reemplazar guion por espacio
+  ) %>% 
+  select(rut, nombre_completo, sexo, 
+         reparticion, horas_reales, jce, jerarquia, categoria, 
+         ingreso_reciente, edad_tramos)
+
+# 2. Pasar datos de postulaciones a wide ----
+# Aprendizaje: Revisar supuestos
+# Facuse (2024) y Menard (2020) aparecen con dos proyectos como IR en el mismo año
+postulaciones %>% 
+  filter(tipo_investigador == "Investigador responsable") %>%
+  count(rut_investigador, anio_concurso) %>%
+  filter(n > 1)
+
+# Aca lo soluciono de forma ordinaria
+postulaciones <- postulaciones %>%
+  filter(tipo_investigador == "Investigador responsable") %>% # Solo IRs
+  group_by(rut_investigador, anio_concurso) %>%
+  summarise(
+    id_vid = first(na.omit(id_vid)),
+    titulo = first(na.omit(titulo)),
+    estado_proyecto = first(na.omit(estado_proyecto)),
+    disciplina_principal = first(na.omit(disciplina_principal)),
+    area_disciplina_principal = first(na.omit(area_disciplina_principal)),
+    disciplina_exacta_principal = first(na.omit(disciplina_exacta_principal)),
+    .groups = "drop"
+  )
+
+postulaciones_wide <- postulaciones %>%
+  mutate(anio_concurso = as.character(anio_concurso)) %>% 
+  pivot_wider(
+    names_from = anio_concurso, # sufijo anio
+    values_from = c(id_vid, titulo, estado_proyecto,
+                    disciplina_principal, area_disciplina_principal, disciplina_exacta_principal), # select datos de proyecto
+    names_sep = "_"
+  )
+
+
+# 3. Crear variables de repostulacion ----
+# Crear variables: 
+# - repost_1: Si repostula al anio sig despues de un rechazo/fdb
+# - repost_2: Si repostula +2 anios despues de un rechazo/fdb
+# - repost_3: Si repostula +3 anios despues de un rechazo/fdb
+
+# Sumar variables de exito de la repostulacion, para contrastar 
+
+postulaciones_wide <- postulaciones_wide %>% 
+  rename(rut = rut_investigador) %>% 
+  mutate(
+    any_fondecyt = 1,
+    repost_3 = case_when(!is.na(titulo_2026) & 
+                           estado_proyecto_2025 != "Aprobado" &
+                           estado_proyecto_2024 != "Aprobado" &
+                           estado_proyecto_2023 != "Aprobado" ~ 1,
+                         !is.na(titulo_2025) & 
+                           estado_proyecto_2024 != "Aprobado" &
+                           estado_proyecto_2023 != "Aprobado" &
+                           estado_proyecto_2022 != "Aprobado" ~ 1,
+                         !is.na(titulo_2024) & 
+                           estado_proyecto_2023 != "Aprobado" &
+                           estado_proyecto_2022 != "Aprobado" &
+                           estado_proyecto_2021 != "Aprobado" ~ 1,
+                         !is.na(titulo_2023) & 
+                           estado_proyecto_2022 != "Aprobado" &
+                           estado_proyecto_2021 != "Aprobado" &
+                           estado_proyecto_2020 != "Aprobado" ~ 1),
+    repost_2 = case_when(!is.na(titulo_2026) & 
+                           estado_proyecto_2025 != "Aprobado" &
+                           estado_proyecto_2024 != "Aprobado" ~ 1,
+                         !is.na(titulo_2025) & 
+                           estado_proyecto_2024 != "Aprobado" &
+                           estado_proyecto_2023 != "Aprobado" ~ 1,
+                         !is.na(titulo_2024) & 
+                           estado_proyecto_2023 != "Aprobado" &
+                           estado_proyecto_2022 != "Aprobado" ~ 1,
+                         !is.na(titulo_2023) & 
+                           estado_proyecto_2022 != "Aprobado" &
+                           estado_proyecto_2021 != "Aprobado" ~ 1),
+    repost_1 = case_when(!is.na(titulo_2026) & 
+                           estado_proyecto_2025 != "Aprobado" ~ 1,
+                         !is.na(titulo_2025) & 
+                           estado_proyecto_2024 != "Aprobado" ~ 1,
+                         !is.na(titulo_2024) & 
+                           estado_proyecto_2023 != "Aprobado"  ~ 1,
+                         !is.na(titulo_2023) & 
+                           estado_proyecto_2022 != "Aprobado" ~ 1),
+    repost_3_exito = case_when(estado_proyecto_2026 == "Aprobado" & 
+                           estado_proyecto_2025 != "Aprobado" &
+                           estado_proyecto_2024 != "Aprobado" &
+                           estado_proyecto_2023 != "Aprobado" ~ 1,
+                         estado_proyecto_2025 == "Aprobado" & 
+                           estado_proyecto_2024 != "Aprobado" &
+                           estado_proyecto_2023 != "Aprobado" &
+                           estado_proyecto_2022 != "Aprobado" ~ 1,
+                         estado_proyecto_2024 == "Aprobado" & 
+                           estado_proyecto_2023 != "Aprobado" &
+                           estado_proyecto_2022 != "Aprobado" &
+                           estado_proyecto_2021 != "Aprobado" ~ 1,
+                         estado_proyecto_2023 == "Aprobado" & 
+                           estado_proyecto_2022 != "Aprobado" &
+                           estado_proyecto_2021 != "Aprobado" &
+                           estado_proyecto_2020 != "Aprobado" ~ 1),
+    repost_2_exito = case_when(estado_proyecto_2026 == "Aprobado" & 
+                                 estado_proyecto_2025 != "Aprobado" &
+                                 estado_proyecto_2024 != "Aprobado" ~ 1,
+                               estado_proyecto_2025 == "Aprobado" & 
+                                 estado_proyecto_2024 != "Aprobado" &
+                                 estado_proyecto_2023 != "Aprobado" ~ 1,
+                               estado_proyecto_2024 == "Aprobado" & 
+                                 estado_proyecto_2023 != "Aprobado" &
+                                 estado_proyecto_2022 != "Aprobado" ~ 1,
+                               estado_proyecto_2023 == "Aprobado" & 
+                                 estado_proyecto_2022 != "Aprobado" &
+                                 estado_proyecto_2021 != "Aprobado" ~ 1),
+    repost_1_exito = case_when(estado_proyecto_2026 == "Aprobado" & 
+                                 estado_proyecto_2025 != "Aprobado" ~ 1,
+                               estado_proyecto_2025 == "Aprobado" & 
+                                 estado_proyecto_2024 != "Aprobado" ~ 1,
+                               estado_proyecto_2024 == "Aprobado" & 
+                                 estado_proyecto_2023 != "Aprobado"  ~ 1,
+                               estado_proyecto_2023 == "Aprobado" & 
+                                 estado_proyecto_2022 != "Aprobado" ~ 1)
+  )
+
+
+# 4. Cruzar datos ----
+
+sum(duplicated(academicos$rut)) # ids no son unicos
+sum(duplicated(postulaciones_wide$rut)) # ids son unicos
+
+postulaciones_wide <- left_join(academicos, postulaciones_wide, 
+                       by = "rut")
+
+
+# 4. Guardar ----
+saveRDS(postulaciones, "peticion-vice/input/postulaciones-wide-2020-2026.rds")
+
+
+

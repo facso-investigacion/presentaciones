@@ -66,9 +66,7 @@
 .reveal table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8em;
-  table-layout: fixed;
-  word-wrap: break-word;
+  font-size: 0.9em;
 }
 .reveal th, .reveal td {
   border: 1px solid #ccc;
@@ -86,7 +84,6 @@
   border-radius: 4px;
   font-size: 90%;
 }
-
 
 /* Pie de página o notas */
 .reveal .footer {

@@ -1,0 +1,104 @@
+---
+title: "Concurso Piloto FIP 2025"
+subtitle: "Fortalecimiento de la Investigación en Postgrado"
+author: "Dirección de Investigación y Publicaciones - FACSO"
+format: 
+  revealjs:
+    theme: simple
+    logo: imagenes/logo-dip.jpg
+    css: logo.css
+    slide-number: true
+    transition: fade
+---
+
+## 1. Presentación
+
+- **Contexto**: En el marco de la autoevaluación institucional 2024, se identificó la necesidad de fortalecer la vinculación entre investigación académica y formación de postgrado.
+- **Respuesta**: Creación del **Concurso para el Fortalecimiento de la Investigación en Postgrado (FIP)**, como componente del Programa de Estímulo a la Excelencia Institucional (PEEI) 2025-2026.
+
+---
+
+## 2. Objetivo del Concurso
+
+**Apoyar la investigación y publicación** de estudiantes de postgrado en articulación con académicos/as de la Facultad, fortaleciendo la calidad e impacto de su producción científica.
+
+---
+
+## 3. Público Objetivo
+
+- Estudiantes de **Magíster** (2º a 3º semestre).
+- Estudiantes de **Doctorado** (3º a 7º semestre).
+- Con **patrocinio** de un/a académico/a (director/a o codirector/a de tesis o AFE).
+
+---
+
+## 4. Requisitos de Postulación
+
+- Matrícula vigente en postgrado FACSO.
+- Carta de patrocinio académico/a.
+- Formulario de postulación.
+- Presupuesto y plan de trabajo.
+
+---
+
+## 5. Gastos elegibles
+
+- **Recolección de datos**: insumos (reactivos, softwares de encuestas, etc.), transcripciones, digitalización.
+- **Análisis**: licencias de software, servicios de laboratorio.
+- **Publicación**: traducciones, revisión de estilo, pago parcial de APC.
+
+**No elegibles**: congresos, viáticos, compra de equipos.
+
+---
+
+## 6. Presupuesto
+
+- **Monto máximo por proyecto**: $600.000.
+- Pago mediante boleta de honorarios emitida por el/la estudiante adjudicatario/a.
+- Se espera entregar 7-8 becas.
+
+---
+
+## 7. Evaluación y adjudicación
+
+- **Etapas**:
+  1. Admisibilidad (revisión documental).
+  2. Evaluación (Comisión de Coordinadores/as de Investigación + Dirección de Postgrado).
+
+- **Criterios**:
+  - Calidad de la propuesta: 50%.
+  - Viabilidad: 25%.
+  - Excelencia académica: 25%.
+
+---
+
+## 8. Criterios complementarios
+
+- **Equidad de género**: máximo 40% de adjudicaciones a varones (Criterio VID - InES Género).
+- **Prioridad** a quienes no tengan financiamiento complementario.
+- **Aprobación de Comité de Ética** en proyectos en psicología clínica, antropología de la salud o sociología de la salud.
+
+---
+
+## 9. Compromisos de los/as Adjudicatarios/as
+
+- Entregar producto final en máximo **10 meses**.
+- Enviar comprobante de envío a revista/editorial.
+- El/la estudiante debe figurar como **primer/a autor/a**.
+- Reconocimiento explícito al Fondo FIP en todos los productos.
+
+---
+
+## 10. Rol del Académico Patrocinante
+
+- Certificar entrega del producto y del comprobante editorial.
+- Velar por cumplimiento de compromisos.
+- En caso de incumplimiento, se aplican restricciones para futuras postulaciones a fondos internos DIP.
+
+---
+
+## 11. Fechas
+
+- Se espera el lanzamiento del fondo entre agosto y septiembre.
+- Plan comunicacional. 
+

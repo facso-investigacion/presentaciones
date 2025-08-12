@@ -1,0 +1,233 @@
+---
+title: "Dirección de Investigación y Publicaciones -- FACSO"
+author: "Presentación Gestión Información Científica"
+lang: es
+date: 2025-08-14
+date-format: "MMMM, YYYY"
+format:
+  revealjs:
+    footer: "DIP -- FACSO"
+    logo: https://raw.githubusercontent.com/facso-investigacion/presentaciones/main/imagenes/logo-sociales.jpg
+    theme: simple
+    css: estilos/custom-facso.css
+scrollable: true
+---
+
+## Contenidos
+
+# 1. Diagnóstico
+
+## Principales fuentes de información
+
+-   Actualmente, el principal repositorio de datos de proyectos de investigación es SEPA-VID
+
+-   Otras fuentes incluyen los repositorios de ANID, el RPI, y la base de datos del Colaboratorio.
+
+-   Además, se trabaja con otras fuentes con otros tipos de información. Principalmente, la base de datos de funcionarios académicos de la Facultad.
+
+## Problemas identificados
+
+-   El acceso a SEPA-VID es restrictivo. Además, carece de libros de códigos y metadatos que faciliten su uso.
+
+-   Capacidad limitda para trazar y analizar trayectorisas de investigación del cuerpo académico
+
+-   Carencia de una plataforma interna que articule los datos de invstigación con otras dimensiones relevantes para la gestión académica -- Jerarquizaciones, género, internacionalización.
+
+-   Falta de sistematización y escasa capacidad para generar reportes integradaos y actualizados sobre productividad académica.
+
+# 2. Propuesta
+
+## Objetivo de la Propuesta
+
+**Desarrollar un sistema local e integrado de gestión y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema permitirá consolidar, actualizar y utilizar estratégicamente los datos de los proyectos de investigación, garantizando que sean encontrables, accesibles, interoperables y reutilizables (principios FAIR)**
+
+**Objetivos específicos:**
+
+1.  **Consolidar y actualizar los datos de investigación** del cuerpo académico de la Facultad.
+
+2.  **Identificar trayectorias académicas** en términos de postulación, adjudicación y ejecución de proyectos de investigación.
+
+3.  **Generar un sistema integrado de visualización y reportes** que permita acceder a información estratégica de manera sintética.
+
+4.  **Mapear áreas y líneas de investigación activas** del cuerpo académico.
+
+# 3. Componentes de la Propuesta
+
+## Componente 1: Bases de Datos
+
+1.  **Base integrada de datos de investigación**
+
+La base contendrá de manera integrada información sobre el académico, sobre el proyecto y sobre la trayectoria académica ed los miembros de la Facultad
+
+2.  **Bases auxiliares**
+
+Además, la base estará acompañada de otros conjuntos de datos que complementaran la información de la Base Integrada. Estas incluyen:
+
+-   Base de datos de académicos retirados
+-   Base de datos de colaboraciones institucionales
+-   Base de datos de colaboración con académicos externos
+-   Base de datos de palabras claves
+
+## Componente 2: Visualización
+
+1.  **Dashboards de uso interno**
+
+Aplicaciones sencillas que permitan responder de manera rápida consultas del Equipo de la Dirección.
+
+2.  **Dashboards de uso externo**
+
+Plataforma de visualización pública con datos sintéticos sobre proyectos de investigación en la Facultad.
+
+## Componente 3: Documentación
+
+Se incluirá documentación clara sobre la construcción de las bases de datos y los visualizadores, incouyendo libros de códigos y reportes técnicos.
+
+### Documentos disponibles
+
+[Documento de trabajo](https://facso-investigacion.github.io/DAI-FACSO/)
+
+-   Resumen del diagnóstico y la propuesta
+
+[Manual de Uso](https://facso-investigacion.github.io/documentos-dai/index.html)
+
+-   Descripción de la estructura de la base de datos integrada y propuesta de flujo para la actualización y el versionamiento de la base.
+
+## Repositorios de la Dirección
+
+-   Todos los repositorio de la Dirección se encuentran en una [organización de GitHub](https://github.com/facso-investigacion)
+
+-   La gestión de información de la Dirección se concentra en 4 repositorios
+
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| Nombre del repositorio                                                          | Descripción                                                                          | Acceso               |
++=================================================================================+======================================================================================+======================+
+| [DAI-FACSO](https://github.com/facso-investigacion/DAI-FACSO)                   | En este repositorio se presenta públicamente la propuesta, su diagnóstico y objetivo | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [bases-datos-dip](https://github.com/facso-investigacion/bases-datos-dip)       | Contiene base de datos originales y datos no anonimizados                            | Privado              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [datos-abiertos-dip](https://github.com/facso-investigacion/datos-abiertos-dip) | Contiene las bases de datos anonimizadas para uso público                            | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [documentos-dai](https://github.com/facso-investigacion/documentos-dai)         | Incluye documentación esencial, como libros de códigos y manuales de uso             | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+
+# 4. Base Integrada de Datos de Investigación
+
+## Base de Datos Integrada
+
+Las variables contenidas en la base de organizan en tres grandes grupos:
+
++-------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Tipo de información                                   | Variables                                                                                                                                                               |
++=======================================================+=========================================================================================================================================================================+
+| Información sobre los académicos                      | RUT; género; edad; departamento; jornada; jerarquía actual                                                                                                              |
++-------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Información sobre el proyecto                         | Código del proyecto; título del proyecto; institución, concurso e instrumento; rol dele investigador; estado del proyecto; duración; año del concurso; monto adjudicado |
++-------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Datos sobre la trayectoria académica del investigador | Años en los que el académico accedió a una jerarquía dada; Jerarquía del académico al momento de adjudicarse el proyecto.                                               |
++-------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+La base se puede encontrar en dos versiones:
+
+1.  Base de datos sin anonimizar (con RUT): `base-datos-dip`
+
+2.  Base de datos anonimizada (sin RUT): `datos-abiertos-dip`
+
+## Principios FAIR
+
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Principio      | Aplicación                                                                                                                                                                  |
++================+=============================================================================================================================================================================+
+| Encontrables   | -   La base de datos anonimizada se encontrará disponible tanto en Github como en Zenodo. Esto otorgará a la base un DOI, lo que facilitará su identificación y referencia. |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Accesibles     | -   Se mantendrá una base de datos sin anonimizar para uso interno, con acceso restringido al equipo de la Dirección.                                                       |
+|                |                                                                                                                                                                             |
+|                | -   La base de datos anonimizada estará disponible públicamente, con acceso abierto.                                                                                        |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Interoperables | La base de datos se almacenará en formato de valores separados por comas (.csv), con codificación UTF-8 y encabezados claros                                                |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Reutilizable   | La base de datos vendrá acompañada de una documentación completa y detallada, incluyendo un libro de código y un manual de uso.                                             |
+|                |                                                                                                                                                                             |
+|                | Se mantendrán metadatos detallados para guardar un historial de versiones, detallando cambios, autores y fechas.                                                            |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+## Metadatos
+
+```yaml
+title: Datos de Investigación de la Facultad de Ciencias Sociales
+creator: Dirección de Investigación y Publicaciones, Facultad de Ciencias Sociales,
+  Universidad de Chile
+date: '2025'
+identifier: TBD
+url: https://github.com/facso-investigacion/bases-datos-dip
+description: Esta propuesta tiene como objetivo desarrollar un sistema local e integrado
+  de gestión y visualización de información científica en la Facultad de Ciencias
+  Sociales. Este sistema permitirá consolidar, actualizar y utilizar estratégicamente
+  los datos de los proyectos de investigación, garantizando que sean encontrables,
+  accesibles, interoperables y reutilizables. Con ello, se busca mejorar la transparencia,
+  eficiencia y sostenibilidad en la gestión de la información científica de la Facultad.
+subject: Gestión de Información Científica
+format:
+- .csv
+- .rdata
+license: TBD
+language: es
+relationship:
+  type: isPartOf
+  id: https://github.com/facso-investigacion
+  description: Parte de la Organización de la Dirección de Investigación en Github
+source: Los datos fueron recopilados a partir de datos de SEPA-VID, ANID y FACSO
+contact:
+  name: Dirección de Investigación FACSO
+  email: asistenteinvestigacion@facso.cl
+  phone: +56 2 2978 9728
+historial_versiones:
+- date: '2025-08-11'
+  message: Update metadata (HEAD -> main, origin/main, origin/HEAD)
+  author: gabcortes97
+```
+
+## Historial de versiones
+
+- El versionamiento se hará a través de git, exportando los commits a un archivo de texto que se actualizará cada vez que se haga un commit.
+
+```bash
+git log --pretty=format:"%ad | %s%d | %an" --date=short > input/data/procesadas/commits.txt
+```
+
+- Este texto luego se procesa a través de un función para generar el archivo de metadatos `_metadata.yml` que se encuentra en la raíz del repositorio.
+
+## Ejemplo Flujo de Trabajo
+
+### 1. Actualización postulaciones FONDECYT a partir del RPI
+
+::: {.img-scroll}
+![](input/flujo1.png)
+:::
+
+---
+
+### 2. Actualización de _metadata.yml
+
+![El resultado se verá así:](input/flujo2.png){width=100%}
+
+```yaml
+historial_versiones:
+- date: '2025-08-11'
+  message: Update metadata (HEAD -> main, origin/main, origin/HEAD)
+  author: gabcortes97
+- date: '2025-08-11'
+  message: Crear master-script.R
+  author: gabcortes97
+- date: '2025-08-05'
+  message: incluye postulaciones de IR fondecyt 2026
+  author: gabcortes97
+- date: '2025-08-04'
+```
+
+## Reporte de problemas
+
+Para reportar problemas o plantear sugerencias, se recomienda utilizar la herramienta *Issues* de GitHub. 
+
+
+
+

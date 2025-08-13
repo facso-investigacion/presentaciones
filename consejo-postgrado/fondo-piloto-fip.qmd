@@ -102,3 +102,13 @@ format:
 - Se espera el lanzamiento del fondo entre agosto y septiembre.
 - Plan comunicacional. 
 
+
+## Instagram
+
+![](imagenes/instagram.jpg)
+
+---
+
+## Afiches y correo
+
+![](imagenes/flyers.jpg)

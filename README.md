@@ -1,2 +1,3 @@
 - [Presentación Equipo Directivo 02-07-2025](https://facso-investigacion.github.io/presentaciones/equipo-directivo/reunion-julio.html#/title-slide)
 - [Presentación Consejo Postgrado 13-08-2025](https://facso-investigacion.github.io/presentaciones/consejo-postgrado/fondo-piloto-fip.html#/title-slide)
+- [Presentación GIC 14-08-2025](https://facso-investigacion.github.io/presentaciones/gestion-informacion/gestion-informacion.html#/title-slide)

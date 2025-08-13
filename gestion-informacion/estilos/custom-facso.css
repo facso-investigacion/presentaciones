@@ -12,8 +12,8 @@
 } */
 
 .reveal .slide-logo {
-  height: 120px !important;
-  max-width: unset !important;
+  height: 100px !important;
+  max-width: auto !important;
   max-height: unset !important;
 }
 
@@ -67,6 +67,8 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9em;
+  margin-right: 2em;
+  border-bottom: 1px solid #222;
 }
 .reveal th, .reveal td {
   border: 1px solid #ccc;
@@ -108,11 +110,14 @@
 
 .inverse h1 {
   color: #ffffff;} */
-  
-  
+
+/* fechas con mayusculas*/
 .date {
   text-transform: capitalize;
-} /* fechas con mayusculas*/
+} 
+
+
+/* Algo de control sobre las imagenes*/
 
 .img-scroll {
   max-height: 85vh;      /* ajusta a gusto */
@@ -126,5 +131,18 @@
   display: block;        /* necesario para márgenes automáticos */
   margin-left: auto;     /* centra horizontalmente */
   margin-right: auto;    /* centra horizontalmente */
+}
+
+/* links */
+
+.reveal a {
+  color: #0066cc;       /* color del link */
+  text-decoration: underline; /* quita subrayado por defecto */
+  trasition: all 0.2 ease-in-out;
+}
+
+.reveal a:hover {
+  text-decoration: underline; /* subrayado al pasar el mouse */
+  color: #3399ff;             /* color más vivo en hover *
 }
 

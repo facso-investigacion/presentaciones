@@ -26,15 +26,19 @@ scrollable: true
 
 ## Principales fuentes de información
 
--   Actualmente, el principal repositorio de datos de proyectos de investigación es SEPA-VID
+-   Actualmente, el principal repositorio de datos de proyectos de investigación es SEPA-VID: Ofrece actualización periódica a partir de plataformas de concursos internos y externos, así como descarga masiva desde bases científicas.
 
--   Otras fuentes incluyen los repositorios de ANID, el RPI, y la base de datos del Colaboratorio.
+-   Otras fuentes incluyen los repositorios de ANID, además de instrumentos internos de la Facultad: RPI, SIDRA, Colaboratorio
 
 -   Además, se trabaja con otras fuentes con distintos tipos de información. Principalmente, la base de datos de funcionarios académicos de la Facultad.
 
 ## Problemas identificados
 
--   El acceso a SEPA-VID es restrictivo. Además, carece de libros de códigos y metadatos que faciliten su uso.
+-   La base de proyectos de SEPA-VID no incluye todos los proyectos vigentes y el ordenamiento está sujeto a cambios y errores.
+
+-   La base de publicaciones no es eficiente para cubrir la diversidad de la producción científica de la Facultad.
+
+-   Además, carece de libros de códigos y metadatos que faciliten su uso.
 
 -   Capacidad limitada para trazar y analizar trayectorias de investigación del cuerpo académico
 
@@ -44,7 +48,55 @@ scrollable: true
 
 ## Objetivo de la Propuesta
 
-**Desarrollar un sistema local e integrado de gestión y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema permitirá consolidar, actualizar y utilizar estratégicamente los datos de los proyectos de investigación, garantizando que sean encontrables, accesibles, interoperables y reutilizables (principios FAIR)**
+**Desarrollar un sistema local e integrado de gestión, produccción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados a los proyectos de investigación de los académicos de la Facultad, tranformándolos en información confiable y oportuna par ala comunicación y la toma de decisiones**
+
+## Objetivos Específicos
+
+1.  Construir una base integrada de proyectos de investigación -- incluyendo proyectos adjudicados y no-adjudicados -- que permita reconstruir las trayectorias de investigación de los académicos de la Facultad.
+
+2.  Construir un sistema de visualización para gestión interna y difusión externa que ofrezca de manera eficiente y sintética reportes reproducibles sobre la investigación a nivel de la Facultad.
+
+3.  Consolidar un entorno de gobernanza de datos, que incluya documentación técnica, metadatos estandarizados y flujos de trabajos claros, que garanticen que los datos almacenados sean encontrables, accesibles, interoperables y reutilizables.
+
+## Integración con otros sistemas de la Facultad
+
+<button class="btn" onclick="toggleFullscreen('#tabla2')">abrir</button>
+
+<div id="tabla2">
+  
+| Plataforma/Sistema   | Función                                                                                          | Nivel de la información | Público objetivo                                                                 |
+|----------------------|--------------------------------------------------------------------------------------------------|-------------------------|----------------------------------------------------------------------------------|
+| Sistema de Datos DIP | Gestionar, producir y analizar datos sobre proyectos de investigación y trayectorias académicas  | Individual y agregado   | Interno (datos desagregados a nivel individual)<br>Externo (datos agregados)    |
+| Colaboratorio        | Difundir y reconocer las trayectorias de investigación de los académicos de la Facultad          | Individual              | Externo                                                                          |
+| SIDRA                | Gestionar y reportar la distribución de responsabilidades académicas                             | Individual              | Interno                                                                          |
+
+</div>
+
+<script>
+function toggleFullscreen(selector){
+  const el = document.querySelector(selector);
+  if(!el) return;
+  const doc = document;
+  const req  = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+  const exit = doc.exitFullscreen    || doc.webkitExitFullscreen    || doc.msExitFullscreen;
+  if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+    req && req.call(el);
+  } else {
+    exit && exit.call(doc);
+  }
+}
+</script>
+
+<style>
+#tabla2:fullscreen, #tabla2:-webkit-full-screen{
+  width: 100vw; height: 100vh;
+  background: white; margin: 0; padding: 24px;
+  overflow: auto; /* para que la tabla scrollee si es más alta que la pantalla */
+}
+.btn{
+  font-size:.9rem; padding:.45rem .9rem; border:1px solid #ccc; border-radius:.5rem; background:#f7f7f7;
+}
+</style>
 
 # 3. Componentes de la Propuesta
 
@@ -62,6 +114,20 @@ Además, la base estará acompañada de otros conjuntos de datos que complementa
 -   Base de datos de colaboraciones institucionales
 -   Base de datos de colaboración con académicos externos
 -   Base de datos de palabras claves
+
+## Alcance
+
+-   Se incluirán en la Base Integrada:
+
+    -   Datos de postulaciones y proyectos de adjudicados por académicos con nombramiento vigente en la Facultad, ya sea como Investigadores Responsables o como Coinvestigadores.
+
+    -   Datos sobre proyectos adjudicados por académicos de la Facultad con anterioridad a su nombramiento en la Universidad.
+
+    -   Datos sobre proyectos no ingresados a SEPA-VID, registrados en el RPI, la Ficha FACSO u otras fuentes de información.
+
+## Factibilidad de inclusión de datos
+
+![](input/flujo3.png)
 
 ## Componente 2: Visualización
 
@@ -93,17 +159,17 @@ Se incluirá documentación clara sobre la construcción de las bases de datos y
 
 -   La gestión de información de la Dirección se concentra en 4 repositorios
 
-+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+------------+
-| Nombre del repositorio                                                          | Descripción                                                                          | Acceso     |
-+=================================================================================+======================================================================================+============+
-| [DAI-FACSO](https://github.com/facso-investigacion/DAI-FACSO)                   | En este repositorio se presenta públicamente la propuesta, su diagnóstico y objetivo | Público    |
-+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+------------+
-| [bases-datos-dip](https://github.com/facso-investigacion/bases-datos-dip)       | Contiene base de datos originales y datos no anonimizados                            | Privado    |
-+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+------------+
-| [datos-abiertos-dip](https://github.com/facso-investigacion/datos-abiertos-dip) | Contiene las bases de datos anonimizadas para uso público                            | Público    |
-+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+------------+
-| [documentos-dai](https://github.com/facso-investigacion/documentos-dai)         | Incluye documentación esencial, como libros de códigos y manuales de uso             | Público    |
-+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+------------+
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| Nombre del repositorio                                                          | Descripción                                                                          | Acceso               |
++=================================================================================+======================================================================================+======================+
+| [DAI-FACSO](https://github.com/facso-investigacion/DAI-FACSO)                   | En este repositorio se presenta públicamente la propuesta, su diagnóstico y objetivo | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [bases-datos-dip](https://github.com/facso-investigacion/bases-datos-dip)       | Contiene base de datos originales y datos no anonimizados                            | Privado              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [datos-abiertos-dip](https://github.com/facso-investigacion/datos-abiertos-dip) | Contiene las bases de datos anonimizadas para uso público                            | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
+| [documentos-dai](https://github.com/facso-investigacion/documentos-dai)         | Incluye documentación esencial, como libros de códigos y manuales de uso             | Público              |
++---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
 
 # 4. Base Integrada de Datos de Investigación
 

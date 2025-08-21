@@ -223,15 +223,17 @@ Dirección de Investigación y Publicaciones – FACSO
 <section id="principales-fuentes-de-información" class="slide level2">
 <h2>Principales fuentes de información</h2>
 <ul>
-<li><p>Actualmente, el principal repositorio de datos de proyectos de investigación es SEPA-VID</p></li>
-<li><p>Otras fuentes incluyen los repositorios de ANID, el RPI, y la base de datos del Colaboratorio.</p></li>
+<li><p>Actualmente, el principal repositorio de datos de proyectos de investigación es SEPA-VID: Ofrece actualización periódica a partir de plataformas de concursos internos y externos, así como descarga masiva desde bases científicas.</p></li>
+<li><p>Otras fuentes incluyen los repositorios de ANID, además de instrumentos internos de la Facultad: RPI, SIDRA, Colaboratorio</p></li>
 <li><p>Además, se trabaja con otras fuentes con distintos tipos de información. Principalmente, la base de datos de funcionarios académicos de la Facultad.</p></li>
 </ul>
 </section>
 <section id="problemas-identificados" class="slide level2">
 <h2>Problemas identificados</h2>
 <ul>
-<li><p>El acceso a SEPA-VID es restrictivo. Además, carece de libros de códigos y metadatos que faciliten su uso.</p></li>
+<li><p>La base de proyectos de SEPA-VID no incluye todos los proyectos vigentes y el ordenamiento está sujeto a cambios y errores.</p></li>
+<li><p>La base de publicaciones no es eficiente para cubrir la diversidad de la producción científica de la Facultad.</p></li>
+<li><p>Además, carece de libros de códigos y metadatos que faciliten su uso.</p></li>
 <li><p>Capacidad limitada para trazar y analizar trayectorias de investigación del cuerpo académico</p></li>
 <li><p>Carencia de una plataforma interna que articule los datos de investigación con otras dimensiones relevantes para la gestión académica – Jerarquizaciones, género, internacionalización.</p></li>
 <li><p>Falta de sistematización y escasa capacidad para generar reportes integrados y actualizados sobre productividad académica.</p></li>
@@ -239,7 +241,83 @@ Dirección de Investigación y Publicaciones – FACSO
 </section>
 <section id="objetivo-de-la-propuesta" class="slide level2">
 <h2>Objetivo de la Propuesta</h2>
-<p><strong>Desarrollar un sistema local e integrado de gestión y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema permitirá consolidar, actualizar y utilizar estratégicamente los datos de los proyectos de investigación, garantizando que sean encontrables, accesibles, interoperables y reutilizables (principios FAIR)</strong></p>
+<p><strong>Desarrollar un sistema local e integrado de gestión, produccción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados a los proyectos de investigación de los académicos de la Facultad, tranformándolos en información confiable y oportuna par ala comunicación y la toma de decisiones</strong></p>
+</section>
+<section id="objetivos-específicos" class="slide level2 scrollable">
+<h2>Objetivos Específicos</h2>
+<ol type="1">
+<li><p>Construir una base integrada de proyectos de investigación – incluyendo proyectos adjudicados y no-adjudicados – que permita reconstruir las trayectorias de investigación de los académicos de la Facultad.</p></li>
+<li><p>Construir un sistema de visualización para gestión interna y difusión externa que ofrezca de manera eficiente y sintética reportes reproducibles sobre la investigación a nivel de la Facultad.</p></li>
+<li><p>Consolidar un entorno de gobernanza de datos, que incluya documentación técnica, metadatos estandarizados y flujos de trabajos claros, que garanticen que los datos almacenados sean encontrables, accesibles, interoperables y reutilizables.</p></li>
+</ol>
+</section>
+<section id="integración-con-otros-sistemas-de-la-facultad" class="slide level2">
+<h2>Integración con otros sistemas de la Facultad</h2>
+<button class="btn" onclick="toggleFullscreen('#tabla2')">
+abrir
+</button>
+<div id="tabla2">
+<table class="caption-top">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 43%">
+<col style="width: 11%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plataforma/Sistema</th>
+<th>Función</th>
+<th>Nivel de la información</th>
+<th>Público objetivo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sistema de Datos DIP</td>
+<td>Gestionar, producir y analizar datos sobre proyectos de investigación y trayectorias académicas</td>
+<td>Individual y agregado</td>
+<td>Interno (datos desagregados a nivel individual)<br>Externo (datos agregados)</td>
+</tr>
+<tr class="even">
+<td>Colaboratorio</td>
+<td>Difundir y reconocer las trayectorias de investigación de los académicos de la Facultad</td>
+<td>Individual</td>
+<td>Externo</td>
+</tr>
+<tr class="odd">
+<td>SIDRA</td>
+<td>Gestionar y reportar la distribución de responsabilidades académicas</td>
+<td>Individual</td>
+<td>Interno</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script>
+function toggleFullscreen(selector){
+  const el = document.querySelector(selector);
+  if(!el) return;
+  const doc = document;
+  const req  = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+  const exit = doc.exitFullscreen    || doc.webkitExitFullscreen    || doc.msExitFullscreen;
+  if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+    req && req.call(el);
+  } else {
+    exit && exit.call(doc);
+  }
+}
+</script>
+<style>
+#tabla2:fullscreen, #tabla2:-webkit-full-screen{
+  width: 100vw; height: 100vh;
+  background: white; margin: 0; padding: 24px;
+  overflow: auto; /* para que la tabla scrollee si es más alta que la pantalla */
+}
+.btn{
+  font-size:.9rem; padding:.45rem .9rem; border:1px solid #ccc; border-radius:.5rem; background:#f7f7f7;
+}
+</style>
 </section></section>
 <section>
 <section id="componentes-de-la-propuesta" class="title-slide slide level1 center">
@@ -263,6 +341,21 @@ Dirección de Investigación y Publicaciones – FACSO
 <li>Base de datos de palabras claves</li>
 </ul>
 </section>
+<section id="alcance" class="slide level2">
+<h2>Alcance</h2>
+<ul>
+<li><p>Se incluirán en la Base Integrada:</p>
+<ul>
+<li><p>Datos de postulaciones y proyectos de adjudicados por académicos con nombramiento vigente en la Facultad, ya sea como Investigadores Responsables o como Coinvestigadores.</p></li>
+<li><p>Datos sobre proyectos adjudicados por académicos de la Facultad con anterioridad a su nombramiento en la Universidad.</p></li>
+<li><p>Datos sobre proyectos no ingresados a SEPA-VID, registrados en el RPI, la Ficha FACSO u otras fuentes de información.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="factibilidad-de-inclusión-de-datos" class="slide level2">
+<h2>Factibilidad de inclusión de datos</h2>
+
+<img data-src="input/flujo3.png" class="r-stretch"></section>
 <section id="componente-2-visualización" class="slide level2 scrollable">
 <h2>Componente 2: Visualización</h2>
 <ol type="1">

@@ -132,7 +132,7 @@ Además, la base estará acompañada de otros conjuntos de datos que complementa
 
 1.  **Dashboards de uso interno**
 
-Aplicaciones sencillas que permitan responder de manera rápida consultas del Equipo de la Dirección. [Propuesta](https://dip-facso.shinyapps.io/consultas/)
+Aplicaciones sencillas que permitan responder de manera rápida consultas del Equipo de la Dirección. [Propuesta](https://dip-facso.shinyapps.io/consultas/){target="_blank}
 
 2.  **Dashboards de uso externo**
 

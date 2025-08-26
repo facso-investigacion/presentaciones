@@ -48,7 +48,7 @@ scrollable: true
 
 ## Objetivo de la Propuesta
 
-**Desarrollar un sistema local e integrado de gestión, produccción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados a los proyectos de investigación de los académicos de la Facultad, tranformándolos en información confiable y oportuna par ala comunicación y la toma de decisiones**
+**Desarrollar un sistema local e integrado de gestión, producción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados a los proyectos de investigación de los académicos de la Facultad, tranformándolos en información confiable y oportuna para la comunicación y la toma de decisiones**
 
 ## Objetivos Específicos
 
@@ -98,7 +98,7 @@ function toggleFullscreen(selector){
 }
 </style>
 
-# 3. Componentes de la Propuesta
+# 2. Componentes de la Propuesta
 
 ## Componente 1: Bases de Datos
 
@@ -133,7 +133,7 @@ Además, la base estará acompañada de otros conjuntos de datos que complementa
 
 1.  **Dashboards de uso interno**
 
-Aplicaciones sencillas que permitan responder de manera rápida consultas del Equipo de la Dirección.
+Aplicaciones sencillas que permitan responder de manera rápida consultas del Equipo de la Dirección. [Propuesta](https://dip-facso.shinyapps.io/consultas/)
 
 2.  **Dashboards de uso externo**
 
@@ -291,14 +291,14 @@ historial_versiones:
 
 Para reportar problemas o plantear sugerencias, se recomienda utilizar la herramienta [*Issues*](https://github.com/facso-investigacion/bases-datos-dip/issues) de GitHub.
 
-# 5. Visualización y Reportes
+<!-- # 5. Visualización y Reportes -->
 
-------------------------------------------------------------------------
+<!-- ------------------------------------------------------------------------ -->
 
-1.  **Consultas Internas**
+<!-- 1.  **Consultas Internas** -->
 
--   Avances en un [dashboard para resolver consultas internas](https://dip-facso.shinyapps.io/consultas/)
+<!-- -   Avances en un [dashboard para resolver consultas internas](https://dip-facso.shinyapps.io/consultas/) -->
 
-2.  **Consultas Externas**
+<!-- 2.  **Consultas Externas** -->
 
--   Dashboard público con datos relevantes sobre la investigación en la Facultad.
+<!-- -   Dashboard público con datos relevantes sobre la investigación en la Facultad. -->

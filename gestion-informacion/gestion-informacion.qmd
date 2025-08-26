@@ -20,7 +20,6 @@ scrollable: true
 1.  Diagnóstico y Propósito
 2.  Componentes de la Propuesta
 3.  Base Integrada de Datos de Investigación
-4.  Visualización y Reporte
 
 # 1. Diagnóstico y Propósito
 
@@ -171,7 +170,7 @@ Se incluirá documentación clara sobre la construcción de las bases de datos y
 | [documentos-dai](https://github.com/facso-investigacion/documentos-dai)         | Incluye documentación esencial, como libros de códigos y manuales de uso             | Público              |
 +---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------+
 
-# 4. Base Integrada de Datos de Investigación
+# 3. Base Integrada de Datos de Investigación
 
 ## Base de Datos Integrada
 

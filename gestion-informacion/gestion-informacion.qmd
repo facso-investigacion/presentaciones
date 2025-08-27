@@ -1,5 +1,5 @@
 ---
-title: "Gestión Información Científica"
+title: "Unidad de Ciencia de Datos de Investigación"
 author: "Dirección de Investigación y Publicaciones -- FACSO"
 lang: es
 date: 2025-08-14
@@ -47,7 +47,7 @@ scrollable: true
 
 ## Objetivo de la Propuesta
 
-**Desarrollar un sistema local e integrado de gestión, producción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados a los proyectos de investigación de los académicos de la Facultad, tranformándolos en información confiable y oportuna para la comunicación y la toma de decisiones**
+**Desarrollar un sistema local e integrado de gestión, producción y visualización de información científica en la Facultad de Ciencias Sociales. Este sistema integrará, consolidará y mantendrá actualizados los datos relacionados con las postulaciones a proyectos de investigación de los académicos/as de la Facultad, tranformándolos en información confiable y oportuna para la comunicación y la toma de decisiones**
 
 ## Objetivos Específicos
 

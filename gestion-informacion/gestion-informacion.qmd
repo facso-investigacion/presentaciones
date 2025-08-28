@@ -1,5 +1,5 @@
 ---
-title: "Unidad de Ciencia de Datos de Investigación"
+title: "Unidad de Ciencia de Datos en Investigación (CINDI*) "
 author: "Dirección de Investigación y Publicaciones -- FACSO"
 lang: es
 date: 2025-08-14
@@ -65,7 +65,7 @@ scrollable: true
   
 | Plataforma/Sistema   | Función                                                                                          | Nivel de la información | Público objetivo                                                                 |
 |----------------------|--------------------------------------------------------------------------------------------------|-------------------------|----------------------------------------------------------------------------------|
-| Sistema de Datos DIP | Gestionar, producir y analizar datos sobre proyectos de investigación y trayectorias académicas  | Individual y agregado   | Interno (datos desagregados a nivel individual)<br>Externo (datos agregados)    |
+| CINDI | Gestionar, producir y analizar datos sobre proyectos de investigación y trayectorias académicas  | Individual y agregado   | Interno (datos desagregados a nivel individual)<br>Externo (datos agregados)    |
 | Colaboratorio        | Difundir y reconocer las trayectorias de investigación de los académicos de la Facultad          | Individual              | Externo                                                                          |
 | SIDRA                | Gestionar y reportar la distribución de responsabilidades académicas                             | Individual              | Interno                                                                          |
 

@@ -15,7 +15,7 @@ format:
 scrollable: true
 ---
 
-# 1. DATASOC
+# DATASOC
 
 ## Contexto
 
@@ -29,20 +29,17 @@ Para lograr posicionarse como un centro de generación de conocimiento basado en
 
 ## DATASOC
 
-Se propone la creación de un Centro de Ciencia de Datos de la Facultad de Ciencias Sociales -- **DATASOC**.
+**DATASOC** es una iniciativa de Ciencia de Datos de la Facultad de Ciencias Sociales que busca **posicionar a la Facultad como un referente nacional en el desarrollo de las ciencias de datos sociales**, articulando investigación, formación, gestión e impacto  a través de las siguientes líneas de acción:
 
-DATASOC busca **posicionar a la Facultad de Ciencias Socilaes como un referentes nacional en el desarrollo de las ciencias de datos sociales**, articulando investigación, formación, gestión e impacto en un único Centro de Ciencia de Datos Sociales a través de las siguientes líneas de acción:
+1) Investigación
 
-i) Investigación
+2) Formación
 
-ii) Formación
+3) Gobernanza de Datos
 
-iii) Gobernanza de Datos
+4) Apoyo, Impacto y Transferencia
 
-iv) Apoyo, Impacto y Transferencia
-
-
-## Investigación
+## 1. Investigación
 
 Objetivo: **Consolidar a FACSO como un nodo para el desarrollo de la investigación metodológica y metacientífica avanzada**
 
@@ -54,7 +51,7 @@ b) Ciencia Abierta, metaciencia y bibliometría
 
 c) Estudios sobre Instituciones de Educación Superior. 
 
-## Formación 
+## 2. Formación 
 
 Objetivo: **Establecer un espacio clave en la formación y capacitación de estudiantes, académicos y público general**
 
@@ -64,17 +61,17 @@ b) Dar espacio para integrar estudiantes de pre y postgrado como pasantes, prác
 
 c) Crear una oferta de cursos de extensión orientados al público externo
 
-## Gobernanza de Datos
+## 3. Gobernanza de Datos
 
 Objetivo: **Asumir un rol activo en la optimizacipon de la gestión y gobernanza de datos para las distintas unidades de la Facultad**
 
-- Desarrollo de CINDAI en la Dirección de Investigación
+- Desarrollo de [CINDAI](https://dip-facso.shinyapps.io/datos-abiertos-CINDAI/#inicio){target="_blank} en la Dirección de Investigación
 
-- Ofrecer consultoría a otras unidades de la Facultad interesadas en fortalecer la gestión de sus datos internos o desarrollar plataformas de visualización. 
+- Ofrecer asesoría a otras unidades de la Facultad interesadas en fortalecer la gestión de sus datos internos o desarrollar plataformas de visualización. 
 
-## Apoyo, Impacto y Transferencia
+## 4. Asesoría, Impacto y Transferencia
 
-Objetivo: **Ofrecer servicios espacializados de acompañamiento técnico a lo largo del ciclo completo de investigación, promoviendo la contribución efectiva al debate público, el diseño de políticas públicas y la toma de decisiones basada en evidencia**
+Objetivo: **Ofrecer servicios especializados de acompañamiento técnico a lo largo del ciclo completo de investigación, promoviendo la contribución efectiva al debate público, el diseño de políticas públicas y la toma de decisiones basada en evidencia**
 
 Las áreas de apoyo incluyen:
 
@@ -83,7 +80,7 @@ Las áreas de apoyo incluyen:
 - Procesamiento y análisis reproducible de datos sociales
 - Gestión, archivo y apertura de datos. 
 
-# 2. Ciencia de Datos en Investigación (CINDAI)
+# Ciencia de Datos en Investigación (CINDAI)
 
 ## Principales fuentes de información
 
@@ -156,7 +153,7 @@ Aplicaciones sencillas que permitan responder de manera rápida consultas del Eq
 
 2.  **Dashboards de uso externo**
 
-Plataforma de visualización pública con datos sintéticos sobre proyectos de investigación en la Facultad.
+Plataforma de visualización pública con datos sintéticos sobre proyectos de investigación en la Facultad. [Maqueta](https://dip-facso.shinyapps.io/datos-abiertos-CINDAI/#inicio){target="_blank}
 
 ## Componente 3: Documentación
 

@@ -1,5 +1,5 @@
 ---
-title: "DATASOC / CINDAI "
+title: "DATASOC "
 author: "Dirección de Investigación y Publicaciones -- FACSO"
 lang: es
 date: 2025-10-03

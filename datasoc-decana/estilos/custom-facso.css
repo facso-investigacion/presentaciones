@@ -12,9 +12,9 @@
 } */
 
 .reveal .slide-logo {
-  height: 100px !important;
+  height: 12vh !important;
   max-width: auto !important;
-  max-height: unset !important;
+  max-height: 100px !important;
 }
 
 /* Fuente general */

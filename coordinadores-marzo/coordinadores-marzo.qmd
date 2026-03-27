@@ -1,0 +1,314 @@
+---
+title: "Reporte FONDECYT Regular 2026"
+author: "Dirección de Investigación y Publicaciones -- FACSO"
+lang: es
+date: last-modified
+date-format: "MMMM, YYYY"
+format:
+  # pptx:
+  #   reference-doc: template.pptx
+  revealjs: 
+    footer: "DIP -- FACSO"
+    logo: https://raw.githubusercontent.com/facso-investigacion/presentaciones/refs/heads/main/consejo-postgrado/imagenes/logo-dip.jpg
+    theme: simple
+    css: estilos/custom-facso.css
+    slide-number: true
+    transition: fade
+scrollable: true
+---
+
+```{r}
+#| label: setup
+#| echo: false
+
+library(pacman)
+p_load(tidyverse,
+       haven,
+       plotly,
+       treemapify,
+       zoo)
+
+load("../coordinadores-marzo/input/data-general-anon.rdata")
+load("../coordinadores-marzo/input/data-proyectos-anon.rdata")
+
+```
+
+## Proyectos Adjudicados 2026
+
+6 proyectos adjudicados en el concurso 2026
+
+- *El profesionalismo Pedagógico de la Sala Cuna: Modelo Situacional del Caso Chileno en Perspectiva Comparada*, Prof. Cynthia Adlerstein, Departamento de Educación
+
+- *Un Océano Plástico: Hacia Una Antropología De La Polución Marina En El Antropoceno*, Prof. Franciso Araos, Departamento de Antropología
+
+- *Adecuaciones Del Modelo Sindical A 45 Años Del Plan Laboral. Condiciones Organizativas Y Estratégicas Para Una Negociación Ramal En Chile*, Prof. Gonzalo Durán, Departamento de Trabajo Social
+
+## Proyectos Adjudicados 2026
+
+6 proyectos adjudicados en el concurso 2026
+
+- *El Futuro Del Consumo ¿Ahora? Tensiones Y Prácticas De Consumo Material, Simbólico Y Postmaterial En Sociedades Desiguales*, Prof. Alejandro Marambio, Departamento de Trabajo Social
+
+- *Memorias En Disputa Sobre El Levantamiento Social Del 2019 En Chile Y Los Sentidos Que Construyen Sobre Los Ddhh*, Prof. Isabel Piper, Departamento de Psicología
+
+- *Tiempo Y Memoria Disciplinar: Producción De Conocimiento Del Trabajo Social Chileno En Tres Claves Temporales (1925-2025)*, Prof. Gabriela Rubilar, Departamento de Trabajo Social. 
+
+::: {.notes}
+3 hombres y 3 mujeres. 3 del TS, 1 Educacion, 1 Psicología, 1 Antropología
+:::
+
+
+## Contexto
+
+```{r}
+#| label: contexto
+#| echo: false
+
+datos <- data.frame(
+  area = c("Total", "Antrop. y Arqu.", "Ed. Inicial",
+           "Ed. Superior", "Psico", "Socio", "Inter"),
+  `2025` = c(32, 41, 35, 27, 35, 35, 12),
+  `2026` = c(27, 29, 26, 21, 27, 27, 6),
+  check.names = FALSE
+)
+
+datos_long <- datos |>
+  pivot_longer(cols = c("2025", "2026"), names_to = "año", values_to = "tasa") |>
+  mutate(area = fct_relevel(area, "Total", after = Inf))
+
+ggplot(datos_long, aes(x = reorder(area, tasa), y = tasa, fill = año)) +
+  geom_col(position = "dodge", width = 0.7) +
+  geom_text(aes(label = paste0(tasa, "%")),
+            position = position_dodge(width = 0.7),
+            hjust = -0.2, size = 4.8) +
+  scale_fill_manual(values = c("2025" = "#e07b39", "2026" = "#003366")) +
+  scale_y_continuous(limits = c(0, 50), labels = scales::percent_format(scale = 1)) +
+  coord_flip() +
+  labs(
+    x = NULL,
+    y = "Tasa de adjudicación (%)",
+    fill = "Año"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "top",
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 18),
+         legend.text = element_text(size=15)
+  )
+```
+
+
+## Tasa de Adjudicación
+
+```{r}
+#| label: adjudicacion-facso
+#| echo: false
+
+proyectos_anon |>
+  filter(anio_concurso == 2026 & instrumento == "Regular" & investigador_responsable != "Externo") |>
+  mutate(adjudicado = as_factor(adjudicado),
+         adjudicado = fct_recode(adjudicado, 
+                                  "Adjudicado"     = "Sí",   # reemplaza "Sí" por el valor real
+                                  "No adjudicado"  = "No")) |>  # reemplaza "No" por el valor real
+  count(adjudicado) |>
+  ggplot(aes(x = "", y = n, fill = adjudicado)) +
+  geom_col(width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = paste0(adjudicado, "\n", n, " (", scales::percent(n / sum(n)), ")")),
+            position = position_stack(vjust = 0.5), size = 6,
+            color = "white") +
+  scale_fill_manual(values = c("Adjudicado" = "#003366", "No adjudicado" = "#73726c")) +
+  labs(fill = NULL) +
+  theme_void() +
+   theme(legend.position = "none")
+
+```
+
+::: {.notes}
+Tasa general de adjudicacion: 27% - 2025: 32%
+
+Antropología y Arqueología: 29% - 2025: 41%
+Educación Inicial: 26%  - 2025: 35%
+Educación Superior: 21% - 2025: 27%
+Psicología: 27% - 2025: 35%
+Sociología: 27% - 2025: 35%
+Inter: 12% 2025: 6%
+:::
+
+## Adjudicación por Departamento
+
+```{r}
+#| label: adj-depto
+#| echo: false
+
+proyectos_anon |>
+  filter(anio_concurso == 2026 & instrumento == "Regular" & investigador_responsable != "Externo") |>
+  mutate(adjudicado = as_factor(adjudicado),
+         adjudicado = fct_recode(adjudicado, 
+                                  "Adjudicado"    = "Sí",
+                                  "No adjudicado" = "No"),
+         departamento_ir = as_factor(departamento_ir),
+         departamento_ir = fct_recode(departamento_ir,
+                                  "Antropología" = "1",
+                                  "Educación" = "2",
+                                  "Psicología" = "3",
+                                  "Sociología" = "4",
+                                  "Trabajo Social" = "5")) |>  # agrega todos los códigos
+  count(departamento_ir, adjudicado) |>
+  ggplot(aes(x = departamento_ir, y = n, fill = adjudicado)) +
+  geom_col(position = "stack") +
+  geom_text(aes(label = n), 
+            position = position_stack(vjust = 0.5), size = 6) +
+  scale_fill_manual(values = c("Adjudicado" = "#003366", "No adjudicado" = "#73726c")) +
+  labs(x = NULL, y = "N° proyectos", fill = NULL) +
+  coord_flip() +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 18),
+        legend.text = element_text(size=15))
+```
+## Evolución Temporal (2017-2026)
+
+```{r}
+
+
+df_plot_wide <- proyectos_anon %>%
+  filter(anio_concurso >= 2017 & anio_concurso <= 2026 & 
+         instrumento == "Regular" & 
+         investigador_responsable != "Externo") %>%
+  group_by(anio_concurso) %>%
+  summarise(
+    postulados  = n(),
+    adjudicados = sum(adjudicado, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(tasa = adjudicados / postulados)
+
+plotly::plot_ly() %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~postulados,
+    type = "scatter", mode = "lines+markers",
+    name = "Postulados",
+    hovertemplate = "<b>Año:</b> %{x}<br><b>Postulados:</b> %{y}<extra></extra>"
+  ) %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~adjudicados,
+    type = "scatter", mode = "lines+markers",
+    name = "Adjudicados",
+    hovertemplate = "<b>Año:</b> %{x}<br><b>Adjudicados:</b> %{y}<extra></extra>"
+  ) %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~tasa,
+    type = "scatter", mode = "lines+markers",
+    name = "Tasa de adjudicación",
+    yaxis = "y2",
+    line = list(dash = "dash"),
+    hovertemplate = "<b>Año:</b> %{x}<br><b>Tasa:</b> %{y:.1%}<extra></extra>"
+  ) %>%
+  plotly::layout(
+    xaxis = list(title = "Año de concurso", dtick = 1),
+    yaxis = list(title = "Número de proyectos", rangemode = "tozero"),
+    yaxis2 = list(
+      title = "Tasa de adjudicación",
+      overlaying = "y",
+      side = "right",
+      rangemode = "tozero",
+      tickformat = ".0%"
+    ),
+    legend = list(title = list(text = "Serie")),
+    margin = list(l = 60, r = 60, t = 80, b = 50)
+  )
+
+```
+
+## Ajuste por media móvil (4 años)
+
+```{r}
+df_plot_wide <- df_plot_wide %>%
+  dplyr::arrange(anio_concurso) %>%
+  dplyr::mutate(
+    mm4_adjudicados = zoo::rollmean(adjudicados, k = 4, fill = NA, align = "right"),
+    mm4_postulados  = zoo::rollmean(postulados,  k = 4, fill = NA, align = "right")
+  )
+
+plotly::plot_ly() %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~postulados,
+    type = "scatter", mode = "lines+markers",
+    name = "Postulados",
+    line = list(color = "#1f77b4"),
+    marker = list(color = "#1f77b4"),
+    hovertemplate = "<b>Año:</b> %{x}<br><b>Postulados:</b> %{y}<extra></extra>"
+  ) %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~mm4_postulados,
+    type = "scatter", mode = "lines",
+    name = "MM4 Postulados",
+    line = list(color = "#1f77b4", dash = "dot", width = 2),
+    hovertemplate = "<b>Año:</b> %{x}<br><b>MM4:</b> %{y:.1f}<extra></extra>"
+  ) %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~adjudicados,
+    type = "scatter", mode = "lines+markers",
+    name = "Adjudicados",
+    line = list(color = "#ff7f0e"),
+    marker = list(color = "#ff7f0e"),
+    hovertemplate = "<b>Año:</b> %{x}<br><b>Adjudicados:</b> %{y}<extra></extra>"
+  ) %>%
+  plotly::add_trace(
+    data = df_plot_wide,
+    x = ~anio_concurso, y = ~mm4_adjudicados,
+    type = "scatter", mode = "lines",
+    name = "MM4 Adjudicados",
+    line = list(color = "#ff7f0e", dash = "dot", width = 2),
+    hovertemplate = "<b>Año:</b> %{x}<br><b>MM4:</b> %{y:.1f}<extra></extra>"
+  ) %>%
+  plotly::layout(
+    xaxis = list(title = "Año de concurso", dtick = 1),
+    yaxis = list(title = "Número de proyectos", rangemode = "tozero"),
+    legend = list(title = list(text = "Serie")),
+    margin = list(l = 60, r = 40, t = 60, b = 50)
+  )
+```
+
+
+## Fondecyt Regular en ejecución 2026
+
+27 proyectos Fondecyt estarán en ejecución durante el 2026*
+
+```{r}
+
+
+
+df_treemap <- proyectos_anon |> 
+  mutate(
+    en_ejecucion = ifelse(anio_concurso == 2026 & adjudicado == 1, 1, en_ejecucion),
+    # Convertimos la variable haven_labelled a factor usando sus etiquetas:
+    departamento_ir = haven::as_factor(departamento_ir) 
+  ) |>
+  filter(instrumento == "Regular" & en_ejecucion == 1 & investigador_responsable != "Externo",
+         anio_concurso > 2022,
+         fecha_termino != as.yearmon("2026-03")) |>
+  group_by(departamento_ir) |>
+  summarise(n = n(), .groups = "drop")
+
+ggplot(df_treemap, aes(area = n, fill = departamento_ir, 
+                       label = paste0(departamento_ir, "\n", n))) +
+  geom_treemap() +
+  geom_treemap_text(
+    colour = "white", place = "centre", reflow = TRUE, size = 16
+  ) +
+  scale_fill_brewer(palette = "Dark2", name = "Departamento") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+

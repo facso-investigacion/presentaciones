@@ -2,3 +2,4 @@
 - [Presentación Consejo Postgrado 13-08-2025](https://facso-investigacion.github.io/presentaciones/consejo-postgrado/fondo-piloto-fip.html#/title-slide)
 - [Presentación GIC 14-08-2025](https://facso-investigacion.github.io/presentaciones/gestion-informacion/gestion-informacion.html#/title-slide)
 - [Presentación Decana 03-10-2025](https://facso-investigacion.github.io/presentaciones/datasoc-decana/datasoc-cindai.html#/title-slide)
+- [Taller Fondecyt Iniciación 21-04-2026](https://facso-investigacion.github.io/presentaciones/iniciacion/taller-iniciacion#/title-slide)

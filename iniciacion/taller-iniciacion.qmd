@@ -1,0 +1,101 @@
+---
+title: "Taller Fondecyt Iniciación"
+author: "Dirección de Investigación y Publicaciones -- FACSO"
+lang: es
+date: 2026-04-21
+date-format: "MMMM, YYYY"
+format:
+  # pptx:
+  #   reference-doc: template.pptx
+  revealjs: 
+    footer: "DIP -- FACSO"
+    logo: https://raw.githubusercontent.com/facso-investigacion/presentaciones/refs/heads/main/consejo-postgrado/imagenes/logo-dip.jpg
+    theme: simple
+    css: estilos/custom-facso.css
+    slide-number: true
+    transition: fade
+scrollable: true
+---
+
+### Objetivo
+
+El objetivo de este concurso es fomentar y fortalecer el desarrollo de la investigación científica o tecnológica de excelencia, a través de la promoción de nuevos/as investigadores/as, mediante el financiamiento de proyectos de investigación de 2 o 3 años de duración en todas las áreas del conocimiento.
+
+Está dirigido a académicos con Doctorado reciente (desde el 01 de enero del 2016) que no hayan sido Investigadores Responsables, Directores o Investigadores Principales de otros proyectos ANID, vigentes o finalizados.
+
+------------------------------------------------------------------------
+
+### Plazos
+
+La ejecución del proyecto debe contemplar 2 o 3 años
+
+### Montos
+
+El monto máximo de financiamiento es de \$30M por año de ejecución, sin contar los gastos de administración indirectos ni gastos de instalación
+
+------------------------------------------------------------------------
+
+### Evaluación
+
+-   Calidad, factibilidad y novedad científica de la propuesta (75%)
+
+-   Trayectoria académica y de investigación del IR (25%)
+
+    -   Antecedentes curriculares
+
+    -   Productividad
+
+    -   Contribución o vinculación con la sociedad y el medio.
+
+------------------------------------------------------------------------
+
+### Resultados 2026
+
+| Grupo de Evaluación | N Concursados 2026 | N Aprobados 2026 | Tasa de Adjudicación (%) 2026 | Tasa de Adjudicación (%) 2025 |
+|----|----|----|----|----|
+| Antropología y Arqueología | 52 | 15 | 28,8 | 29,2 |
+| Educación Inicial-Escolar | 104 | 26 | 25 | 25 |
+| Educación Superior | 111 | 29 | 26,1 | 25 |
+| Psicología | 69 | 7 | 11,6 | 25 |
+| Sociología | 105 | 26 | 24,8 | 25,7 |
+| Inter y Transdisciplinaria | 95 | 8 | 8,4 | 13,3 |
+
+------------------------------------------------------------------------
+
+### Proceso de Postulación
+
+**Patrocinio institucional FACSO**
+
+-   Completar el [formulario RPI](https://forms.gle/Qs9JC9xN4dMVZD1V7) de la Dirección de Investigación
+-   Solicitar el apoyo del Director/a de Departamento y enviarlo a [asistenteinvestigacion\@facso.cl](mailto:asistenteinvestigacion@facso.cl)
+-   Enviar proyecto mediante la plataforma ANID para su validación y firma **hasta el 12 de mayo a las 16:00 horas**
+-   Posterior al cierre del concurso, la VID comunicará a DIP la nómina de las postulaciones, para su ratificación
+
+---
+
+### Proceso de Postulación
+
+**Revisión de admisibilidad y patrocinio VID**
+
+-   Desde la ratificación del patrocinio hasta el **26 de mayo** la VID hará una revisión de la admisibilidad del proyecto previo a otorgar el patrocinio institucional de la Universidad.
+-   Es posible que la Unidad de Proyectos de la VID solicite modificaciones o correcciones mediante correo electrónico.
+
+------------------------------------------------------------------------
+
+### Dudas y Consultas
+
+**Sobre proceso interno FACSO**
+
+- Gabriel Cortés, Asistente de la Dirección de Investigación: [asistenteinvestigacion\@facso.cl](mailto:asistenteinvestigacion@facso.cl)
+
+**Sobre proceso VID, interpretación de las bases, presupuesto**
+
+- Carmen Cea, Analista de Proyectos de la VID: [carmenceagaete@uchile.cl](mailto:carmenceagaete@uchile.cl)
+
+---
+
+### Taller ANID
+
+{{< video https://www.youtube.com/watch?v=egKHx0ZFCw4 width="100%" height="85%" >}}
+
+

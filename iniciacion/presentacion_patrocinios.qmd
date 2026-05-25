@@ -1,0 +1,200 @@
+---
+title: "Patrocinios FACSO Fondecyt Iniciación 2027"
+author: "Dirección de Investigación y Publicaciones -- FACSO"
+lang: es
+date: 2026-05-25
+date-format: "MMMM, YYYY"
+format:
+  # pptx:
+  #   reference-doc: template.pptx
+  revealjs: 
+    footer: "DIP -- FACSO"
+    logo: https://raw.githubusercontent.com/facso-investigacion/presentaciones/refs/heads/main/consejo-postgrado/imagenes/logo-dip.jpg
+    theme: simple
+    css: estilos/custom-facso.css
+    slide-number: true
+    transition: fade
+scrollable: true
+---
+
+
+```{r setup}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(scales)
+
+# Paleta de colores consistente
+colores_nombramiento <- c("Con nombramiento" = "#2C7FB8",
+                          "Sin nombramiento" = "#A6BDDB")
+colores_genero <- c("Mujeres" = "#2C7FB8", "Hombres" = "#A6BDDB")
+```
+
+## Patrocinios Concursos 2026 y 2027 {.smaller}
+
+```{r grafico-concursos}
+df_concursos <- data.frame(
+  Concurso = rep(c("2026", "2027"), each = 2),
+  Tipo = factor(rep(c("Con nombramiento", "Sin nombramiento"), 2),
+                levels = c("Sin nombramiento", "Con nombramiento")),
+  Cantidad = c(7, 5, 13, 4)
+)
+
+totales <- df_concursos |>
+  group_by(Concurso) |>
+  summarise(Total = sum(Cantidad))
+
+ggplot(df_concursos, aes(x = Concurso, y = Cantidad, fill = Tipo)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = Cantidad),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 5) +
+  geom_text(data = totales, aes(x = Concurso, y = Total, label = paste("Total:", Total)),
+            inherit.aes = FALSE, vjust = -0.5, fontface = "bold", size = 5) +
+  scale_fill_manual(values = colores_nombramiento) +
+  # labs(title = "Patrocinios por concurso",
+  #      subtitle = "Académicos con y sin nombramiento",
+  #      x = NULL, y = "Número de patrocinios", fill = NULL) +
+  ylim(0, 20) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+
+::: {.notes}
+17 patrocinios en 2027 (13 con nombramiento + 4 sin nombramiento), aumento importante desde los 12 del año anterior.
+:::
+
+## Patrocinios por Departamento (2027)
+
+```{r grafico-departamentos}
+df_dept <- data.frame(
+  Departamento = rep(c("Antropología", "Educación", "Psicología",
+                       "Sociología", "Trabajo Social"), each = 2),
+  Tipo = factor(rep(c("Con nombramiento", "Sin nombramiento"), 5),
+                levels = c("Sin nombramiento", "Con nombramiento")),
+  Cantidad = c(3, 1,   # Antropología
+               2, 2,   # Educación
+               5, 0,   # Psicología
+               0, 1,   # Sociología
+               3, 0)   # Trabajo Social
+)
+
+totales_dept <- df_dept |>
+  group_by(Departamento) |>
+  summarise(Total = sum(Cantidad))
+
+ggplot(df_dept, aes(x = reorder(Departamento, -Cantidad, sum),
+                    y = Cantidad, fill = Tipo)) +
+  geom_bar(stat = "identity", width = 0.65) +
+  geom_text(aes(label = ifelse(Cantidad > 0, Cantidad, "")),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 4.5) +
+  geom_text(data = totales_dept,
+            aes(x = Departamento, y = Total, label = Total),
+            inherit.aes = FALSE, vjust = -0.5, fontface = "bold", size = 4.5) +
+  scale_fill_manual(values = colores_nombramiento) +
+  labs(x = NULL, y = "Número de patrocinios", fill = NULL) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"),
+        axis.text.x = element_text(angle = 0))
+```
+
+## Distribución por género por Departamento
+
+```{r grafico-genero}
+df_genero <- data.frame(
+  Departamento = rep(c("Antropología", "Educación", "Psicología",
+                       "Sociología", "Trabajo Social"), each = 2),
+  Genero = rep(c("Hombres", "Mujeres"), 5),
+  Cantidad = c(1, 3,   # Antropología
+               1, 3,   # Educación
+               3, 2,   # Psicología
+               0, 1,   # Sociología
+               2, 1)   # Trabajo Social
+)
+
+totales_gen <- df_genero |>
+  group_by(Departamento) |>
+  summarise(Total = sum(Cantidad))
+
+ggplot(df_genero, aes(x = reorder(Departamento, -Cantidad, sum),
+                      y = Cantidad, fill = Genero)) +
+  geom_bar(stat = "identity", width = 0.65) +
+  geom_text(aes(label = ifelse(Cantidad > 0, Cantidad, "")),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 4.5) +
+  geom_text(data = totales_gen,
+            aes(x = Departamento, y = Total, label = Total),
+            inherit.aes = FALSE, vjust = -0.5, fontface = "bold", size = 4.5) +
+  scale_fill_manual(values = colores_genero) +
+  labs(title = "Distribución por género según Departamento",
+       x = NULL, y = "Número de patrocinios", fill = NULL) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+
+::: {.notes}
+10 mujeres y 7 hombres. 7 y 6 entre académicos con nombramiento 
+:::
+
+
+## Postulantes por segunda vez
+
+```{r grafico-segunda-vez}
+df_seg <- data.frame(
+  Categoria = c("Segunda postulación", "Primera postulación"),
+  Cantidad = c(7, 6)
+) |>
+  mutate(
+    Pct = Cantidad / sum(Cantidad),
+    Etiqueta = paste0(Cantidad, " (", percent(Pct, accuracy = 1), ")")
+  )
+
+ggplot(df_seg, aes(x = "", y = Cantidad, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y", start = 0) +
+  geom_text(aes(label = Etiqueta),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 5.5) +
+  scale_fill_manual(values = c("Segunda postulación" = "#2C7FB8",
+                               "Primera postulación" = "#A6BDDB")) +
+  labs(subtitle = "De los 13 académicos de la Facultad",
+       fill = NULL) +
+  theme_void(base_size = 14) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+## Posibilidad de postular el próximo año
+
+```{r grafico-proximo-anio}
+df_prox <- data.frame(
+  Categoria = c("Puede postular", "No puede postular"),
+  Cantidad = c(12, 1)
+) |>
+  mutate(
+    Pct = Cantidad / sum(Cantidad),
+    Etiqueta = paste0(Cantidad, " (", percent(Pct, accuracy = 1), ")")
+  )
+
+ggplot(df_prox, aes(x = "", y = Cantidad, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y", start = 0) +
+  geom_text(aes(label = Etiqueta),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 5.5) +
+  scale_fill_manual(values = c("Puede postular" = "#2c7Fb8",
+                               "No puede postular" = "#A6bddb")) +
+  labs(subtitle = "Doctorado al 1 de enero de 2017 — 13 académicos FACSO",
+       fill = NULL) +
+  theme_void(base_size = 14) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+

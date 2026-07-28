@@ -4,3 +4,4 @@
 - [Presentación Decana 03-10-2025](https://facso-investigacion.github.io/presentaciones/datasoc-decana/datasoc-cindai.html#/title-slide)
 - [Taller Fondecyt Iniciación 21-04-2026](https://facso-investigacion.github.io/presentaciones/iniciacion/taller-iniciacion#/title-slide)
 - [Presentación Patrocinios Fondecyt Iniciación 2027](https://facso-investigacion.github.io/presentaciones/iniciacion/presentacion_patrocinios#/title-slide)
+- [Presentación Informes DIP Julio 2026](https://facso-investigacion.github.io/presentaciones/coordinadores-julio/coordinadores-julio.html#/title-slide)

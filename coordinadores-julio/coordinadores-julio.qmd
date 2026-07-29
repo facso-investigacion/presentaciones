@@ -144,9 +144,19 @@ Se detectó una alta dispersión en la producción académica en la Facultad. La
 ---
 
 ![Publicaciones por Departamento y JCE](input/fig-publicacion-depto-1.png)
+::: {.notes}
+Según se observa en el Figura 3.4, el predominio de los artículos sobre otras formas de publicaciones es apreciable en todos los departamentos, aunque la publicación de capítulos de libros es superior en Trabajo Social, Sociología y Psicología. Se destaca que el departamento de Trabajo Social es el que más publicaciones por Jornada Completa Equivalente (2025) produce, con 12.8 publicaciones por JCE. Le sigue el Departamento de Sociología con 8.87 publicaciones por JCE, Psicología con 8,19, Antropología con 8,13 y Educación con 4,55.
+:::
+
 ---
 
 ![Publicaciones por Departamento y tipo de indexación](input/fig-index-depto-1.png)
+
+::: {.notes}
+La Figura 3.10 y Figura 3.11 muestran que hay diferencias importantes entre los departamentos. Por un lado, en Antropología predominan las publicaciones en WoS, principalmente en revistas relacionadas con la arqueología y la antropología física. Mientras tanto, el Departamento de Trabajo Social muestra una mayor cantidad de publicaciones en Scopus por JCE, al igual que el Departamento de Educación. Con todo, se debe destacar que las publicaciones WoS del Departamento de Trabajo Social han aumentado de forma sostenida desde 2023, llegando a 16 en 2025.
+:::
+
+
 ---
 
 ![Publicaciones por Departamento y tipo de indexación 2020-2025](input/fig-index-depto-evo-1.png)
@@ -194,9 +204,21 @@ articulos_depto %>%
 El índice h agregado no equivale a la suma ni al promedio de los índices individuales: indica cuántas publicaciones $h$ del total analizado cuentan con $h$ o más citas. El Índice h a nivel Facultad es de 30
 :::
 
+::: {.notes}
+A través de la API de Scopus, se encontraron registros de las citas de 662 artículos durante el período estudiado. La suma de citas entre 2020 y 2025 asciende a un total de 4773, lo que equivale a un promedio de 7,47 citas por artículo. Si se ordenan las citas de mayor a menor, es posible observar que el índice h agregado de la institución es igual a 30. En otras palabras, entre 2020 y 2025 los académicos de la Facultad publicaron un total de 30 artículos que registran 30 citas o más.
+
+Ahora bien, se observa una gran dispersión en la cantidad de citas por artículo. El rango de citas va de 0 a un máximo de 307. El artículo mediano cuenta con 3 citaciones, con el 50% de las publicaciones registrando entre 1 y 7 citas. Esta amplia dispersión se observa claramente en Figura 3.12, donde se observa una mayor proporción de artículos con 0 a 2 citas, con una cola larga hacia la derecha que se extiende más allá de las 300 citas.
+:::
+
 ---
 
 ![Cantidad y proporción de publicaciones en revistas Q1 y Q2 por JCE por Departamento](input/fig-sjr-depto-1.png)
+::: {.notes}
+Se registró un total de 741 publicaciones en revistas con un SJR (SCImago Journal Rank) registrado. La Tabla 3.5 muestra la distribución por Cuartil de SJR de las publicaciones analizadas. Se destaca que la mayoría de las publicaciones se encuentran en el rango de Q1, con un 44%. En conjunto, el 68% de las publicaciones en revistas con factor de impacto en SCImago durante el período de referencia corresponden a revistas Q1 o Q2.
+
+La Tabla 3.6 expone las principales revistas Q1 o Q2 en que han publicado los académicos de la Facultad durante el período analizado. Los resultados son similares a los observados en Tabla 3.1, especialmente en Antropología y Trabajo Social. Destacan publicaciones en revistas tales como Earth Future (Q1 en Ciencias del Medioambiente), Journal of Archaeological Science (Q1 en Arqueología), BMC Psychiatry (Q1 en Psiquiatría y Salud Mental), Frontiers in Sociology (Q1 en Ciencias Sociales) y Frontiers in Psychology (Q1 en Psicología). Por otro lado, vuelve a aparecer una revista de la Facultad: Cinta de Moebio, que se encuentra calificada como Q2 en el área de Filosofía.
+:::
+
 ---
 
 ## Conclusiones

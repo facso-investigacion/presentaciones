@@ -144,6 +144,7 @@ Se detectó una alta dispersión en la producción académica en la Facultad. La
 ---
 
 ![Publicaciones por Departamento y JCE](input/fig-publicacion-depto-1.png)
+
 ::: {.notes}
 Según se observa en el Figura 3.4, el predominio de los artículos sobre otras formas de publicaciones es apreciable en todos los departamentos, aunque la publicación de capítulos de libros es superior en Trabajo Social, Sociología y Psicología. Se destaca que el departamento de Trabajo Social es el que más publicaciones por Jornada Completa Equivalente (2025) produce, con 12.8 publicaciones por JCE. Le sigue el Departamento de Sociología con 8.87 publicaciones por JCE, Psicología con 8,19, Antropología con 8,13 y Educación con 4,55.
 :::
@@ -213,10 +214,9 @@ Ahora bien, se observa una gran dispersión en la cantidad de citas por artícul
 ---
 
 ![Cantidad y proporción de publicaciones en revistas Q1 y Q2 por JCE por Departamento](input/fig-sjr-depto-1.png)
-::: {.notes}
-Se registró un total de 741 publicaciones en revistas con un SJR (SCImago Journal Rank) registrado. La Tabla 3.5 muestra la distribución por Cuartil de SJR de las publicaciones analizadas. Se destaca que la mayoría de las publicaciones se encuentran en el rango de Q1, con un 44%. En conjunto, el 68% de las publicaciones en revistas con factor de impacto en SCImago durante el período de referencia corresponden a revistas Q1 o Q2.
 
-La Tabla 3.6 expone las principales revistas Q1 o Q2 en que han publicado los académicos de la Facultad durante el período analizado. Los resultados son similares a los observados en Tabla 3.1, especialmente en Antropología y Trabajo Social. Destacan publicaciones en revistas tales como Earth Future (Q1 en Ciencias del Medioambiente), Journal of Archaeological Science (Q1 en Arqueología), BMC Psychiatry (Q1 en Psiquiatría y Salud Mental), Frontiers in Sociology (Q1 en Ciencias Sociales) y Frontiers in Psychology (Q1 en Psicología). Por otro lado, vuelve a aparecer una revista de la Facultad: Cinta de Moebio, que se encuentra calificada como Q2 en el área de Filosofía.
+::: {.notes}
+Se registró un total de 741 publicaciones en revistas con un SJR (SCImago Journal Rank) registrado. La Tabla 3.5 muestra la distribución por Cuartil de SJR de las publicaciones analizadas. Se destaca que la mayoría de las publicaciones se encuentran en el rango de Q1, con un 44%. En conjunto, el 68% de las publicaciones en revistas con factor de impacto en SCImago durante el período de referencia corresponden a revistas Q1 o Q2. La Tabla 3.6 expone las principales revistas Q1 o Q2 en que han publicado los académicos de la Facultad durante el período analizado. Los resultados son similares a los observados en Tabla 3.1, especialmente en Antropología y Trabajo Social. Destacan publicaciones en revistas tales como Earth Future (Q1 en Ciencias del Medioambiente), Journal of Archaeological Science (Q1 en Arqueología), BMC Psychiatry (Q1 en Psiquiatría y Salud Mental), Frontiers in Sociology (Q1 en Ciencias Sociales) y Frontiers in Psychology (Q1 en Psicología). Por otro lado, vuelve a aparecer una revista de la Facultad: Cinta de Moebio, que se encuentra calificada como Q2 en el área de Filosofía.
 :::
 
 ---
